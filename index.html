@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+<style>
+table, th, td {
+  border:1px solid black;
+  table-layout: fixed;
+  width: 200px;
+}
+body {
+		margin: 10px;		
+	}	
+.child {
+  background-color: orange;
+  width: 100px;
+  height: 100px;
+}
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+</style>
+<head>
+  <title>JS Modules</title>
+  <script type="module" src="index.js"></script>
+</head>
+<body style="background: url(static/background.png); 
+background-size: cover;
+background-repeat: no-repeat;
+height: 100vh;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;">
+  <section id="control-center">
+    <div id="menu" class="fixed inset-0 flex items-center justify-center">
+      <div class="text-center">
+        <h1 class="text-white mb-6 text-5xl text-bold">Menu Title</h1>
+        <div>          
+          <button id="start" class="mt-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Start Game</button>                
+        </div>
+      </div>          
+    </div>    
+
+
+    <div id="gameMeta" class="bg-white text-center justify-center" style="display: none;">
+      <div>
+        <div class="flex items-center justify-center">        
+          <div class="items-center" style="padding: 2px; padding-left: 50px; padding-right: 50px;">
+            <p>Score: <span id="score"></span></p>
+          </div>
+          <div class="items-center" style="padding: 2px; padding-left: 50px; padding-right: 50px;">
+            <p>Remaining Lives: <span id="currLives"></span></p> 
+          </div>   
+          <div class="items-center" style="padding: 2px; padding-left: 50px; padding-right: 50px;">
+            <p>Timer: <span id="timer">20s</span></p>
+          </div>        
+        </div>  
+      </div> 
+    </div> 
+
+    <div id="gameScreen" class="text-center justify-center mt-5" style="display: none;">
+      <div>
+        <div class="flex items-center justify-center">        
+          <div class="items-center" style="margin-right: 10px;">
+            <img id="team1img" class="bg-indigo-300 rounded-full px-6" width="200" height="100">
+            <h1 class="text-white text-bold text-3xl" id="team1pts"></h1>
+          </div>
+          <div class="items-center">
+            <p class="text-3xl text-white">VS.</p>
+          </div>
+          <div class="items-center" style="margin-left: 10px">
+            <img id="team2img" class="bg-indigo-300 rounded-full px-6" width="200" height="100">
+            <h1 class="text-white text-bold text-3xl" id="team2pts"></h1>
+          </div>        
+        </div>  
+        <h1><span class="text-white text-3xl font-mono text-bold" id="gameSummary"></span></h1>   
+        
+        <div>              
+          <h1><span class="text-white text-2xl font-mono text-bold" id="gameDate"></span></h1>  
+          <h2 class="text-white text-3xl">Whose Stats Are These?</h2>
+        </div>
+      </div>       
+      
+      <!-- <table class="table-fixed" id="statTable" style="border:1px solid black;margin-left:auto;margin-right:auto"> -->
+      <table class="bg-black table-auto text-white text-small font-light" id="statTable" style="border-color: white; margin-left: auto; margin-right:auto">
+        <tbody>
+          <tr>
+            <td id="ptsName"></td>
+            <td id="pts"></td>
+          </tr>
+          <tr>
+            <td id="astName"></td>
+            <td id="ast"></td>
+          </tr>
+          <tr>
+            <td id="blksName"></td>
+            <td id="blks"></td>
+          </tr>
+          <tr>
+            <td id="fg3_pctName"></td>
+            <td id="fg3_pct"></td>
+          </tr>
+          <tr>
+            <td id="ft_pctName"></td>
+            <td id="ft_pct"></td>
+          </tr>
+          <tr>
+            <td id="rebName"></td>
+            <td id="reb"></td>
+          </tr>
+          <tr>
+            <td id="stlName"></td>
+            <td id="stl"></td>
+          </tr>
+          <tr>
+            <td id="turnoverName"></td>
+            <td id="turnover"></td>
+          </tr>
+        </tbody>
+      </table>          
+      
+      <div class="flex items-center justify-center">        
+        <div id="statusDiv" class="items-center" class="items-center" style="position: absolute; display: none">
+          <img id="statusImage" src="">    
+        </div>
+        <div class="items-center" style="padding-top: 5px; margin: 10px;">
+          <button id="player1">Player1</button>
+          <img id="player1img" width="350" height="254">          
+        </div>
+        <div class="items-center" style="padding-top: 5px; margin: 10px;">
+          <button id="player2">Player2</button>
+          <img id="player2img" width="350" height="254">          
+        </div>        
+      </div>                  
+    </div>
+  </section>
+</body>
+</html>
