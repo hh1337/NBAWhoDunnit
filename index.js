@@ -16,8 +16,8 @@ let player1, player2, team1ID, team2ID
 function getNBAData() {
   const currentYear = new Date().getFullYear()    
   const randomYear = Math.floor(Math.random() * 1 + (currentYear - 1))
-  const randomTeamId = Math.floor(Math.random() * (31-1) + 1)
-  // const randomTeamId = 25
+  // const randomTeamId = Math.floor(Math.random() * (31-1) + 1)
+  const randomTeamId = 8
   
   return new Promise((resolve) => {
     nba.getRandomGame(randomYear, randomTeamId).then((game) => {
@@ -39,7 +39,7 @@ function updateTable() {
 }
 
 function updatePlayerBtns() {
-  const btnColor = 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full mt-5'
+  const btnColor = 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full'
   player1Btn.className = btnColor
   player2Btn.className = btnColor
 
@@ -171,8 +171,8 @@ function changeBtnStatus(disableBool) {
 }
 
 function changeBtnColors() {
-  document.getElementById(correctBtnId).className = 'bg-gradient-to-r from-green-800 via-green-600 to-green-400 border-2 text-white text-white px-5 py-1 rounded-full mt-5'
-  document.getElementById(wrongBtnId).className = 'bg-gradient-to-r from-red-800 via-red-600 to-red-400 border-2 text-white px-5 py-1 rounded-full mt-5'  
+  document.getElementById(correctBtnId).className = 'bg-gradient-to-r from-green-800 via-green-600 to-green-400 border-2 text-white text-white px-5 py-1 rounded-full'
+  document.getElementById(wrongBtnId).className = 'bg-gradient-to-r from-red-800 via-red-600 to-red-400 border-2 text-white px-5 py-1 rounded-full'  
 }
 
 function displayAnswerStatus(correctBool) {
@@ -240,7 +240,7 @@ function initializePage() {
     promise.then(() => {
       updatePage()
       document.getElementById('gameScreen').style.display = 'block' 
-      document.getElementById('gameMeta').style.display = 'block'
+      // document.getElementById('gameMeta').style.display = 'block'
       document.getElementById('menu').style.display = 'none'  
     }, WAIT_UPDATE_TIME)
   })
@@ -251,6 +251,8 @@ window.onload = function () {
   initializePage()
   player1Btn.addEventListener('click', checkAnswer)
   player2Btn.addEventListener('click', checkAnswer)  
+  // document.getElementById('test2').style.fontFamily = "Impact,Charcoal,sans-serif";
+  // document.getElementById('test').style.fontFamily = "Andale Mono, monospace";
   // document.getElementById('what').addEventListener('click', () => {
   //   console.log('I got clicked')
   // })
