@@ -9,6 +9,24 @@ export default class NBAHttps {
     this.currStat
   }
 
+  getLastSeason() {
+    const currentYear = new Date().getFullYear() 
+
+    // See if any games have been played in the months of Oct to Nov (indicates season started)
+    const endpoint = `games?per_page=100&start_date=${currentYear}-10-01&end_date=${currentYear}-11-01`      
+
+    return new Promise((resolve) => {
+      this.sendApiRequest(endpoint).then(responseData => {
+        responseData['data'].forEach((item, i) => {
+          if (item['period'] > 0) {        
+            resolve(currentYear) 
+          }
+        })      
+        resolve(currentYear - 1)
+      })   
+    })   
+  }
+
   sendApiRequest(endpoint) {
     const promise = new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
@@ -31,6 +49,7 @@ export default class NBAHttps {
     return new Promise((resolve, reject) => {
       this.sendApiRequest(endpoint).then(responseData => {
         const meta = responseData['meta']
+        console.log(meta)
         const perPage = meta['per_page']
         const total = meta['total_count']
 
@@ -38,8 +57,10 @@ export default class NBAHttps {
         const goToPage = Math.ceil(randomIdx / perPage)
         const pageIdx = randomIdx - (perPage * (goToPage - 1)) - 1
 
-        const newEndpoint = `${endpoint}&page=${goToPage}`
+        const newEndpoint = `${endpoint}&page=${goToPage}`   
+        console.log(newEndpoint)     
         this.sendApiRequest(newEndpoint).then(responseData => {
+          console.log(responseData['data'][pageIdx])
           resolve(responseData['data'][pageIdx])
         })
 

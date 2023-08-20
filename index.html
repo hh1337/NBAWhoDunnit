@@ -46,11 +46,12 @@ height: 100vh;
       <div id="statsMeta" class="text-center justify-center" style="margin: 20px;">
         <div>
           <div class="flex items-center justify-center">                     
-            <div style="width: 400px; height: 200px">
-              <div class="bg-indigo-600 py-5 rounded-full" style="margin-inline-end: 50px;">
+            <div class="items-center" style="width: 400px; height: 200px">
+              <div class="bg-indigo-600 py-5 rounded-full" style="margin-inline-end: 50px;">                
                 <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Score: <span id="score"></span></p>
-                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Lives: <span id="currLives"></span></p> 
-              </div>
+                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Lives: <span id="currLives"></span></p>                                 
+              </div>              
+              <p class="text-green-300 text-3xl flex items-center justify-center" id="lifeAdded" style="margin-right: 50px;display: none;">+1 Life Added!</p>              
             </div>            
 
             <div class="items-center">
@@ -109,7 +110,7 @@ height: 100vh;
       <div id="playerOptions" class="text-center justify-center">
         <div>
           <div class="flex items-center justify-center">        
-            <div id="statusDiv" class="items-center" class="items-center" style="position: absolute;">
+            <div id="statusDiv" class="items-center" style="position: absolute;">
               <img id="statusImage" src="">    
             </div>
             <div class="bg-white rounded-t-3xl items-center" style="margin-inline: 10px;">

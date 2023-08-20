@@ -4,8 +4,10 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
 const STARTING_HEALTH = 50
-const TIMER_MAX = 10000
+const TIMER_MAX = 5000
 const WAIT_UPDATE_TIME = 1500
+const TIMER_WARNING = 11
+const EXTRA_LIFE_PROB = 1
 const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
 const player1Btn = document.getElementById('player1')
 const player2Btn = document.getElementById('player2')
@@ -17,19 +19,19 @@ let currLives, streak, score, time, colorVal, addOrSub, colorFcn
 let player1, player2
 let seconds, timerIsRed
 
-function getNBAData() {
-  const currentYear = new Date().getFullYear()    
-  const randomYear = Math.floor(Math.random() * 1 + (currentYear - 1))  
-  const randomTeamId = (sessionStorage.selectedTeam == "0") ? Math.floor(Math.random() * (31-1) + 1): sessionStorage.selectedTeam
-  
+function getNBAData() {  
   return new Promise((resolve) => {
-    nba.getRandomGame(randomYear, randomTeamId).then((game) => {
-      nba.getGameStats(game.id).then((stats) => {             
-        nba.chooseTwoPlayers(nba.separateTeams(stats)).then((players) => {        
-          resolve(players)
+    nba.getLastSeason().then((currentYear) => {
+      const randomYear = (sessionStorage.selectedYear == "0") ? Math.floor(Math.random() * 3 + (currentYear - 3)) : sessionStorage.selectedYear
+      const randomTeamId = (sessionStorage.selectedTeam == "0") ? Math.floor(Math.random() * (31-1) + 1): sessionStorage.selectedTeam
+      nba.getRandomGame(randomYear, randomTeamId).then((game) => {
+        nba.getGameStats(game.id).then((stats) => {             
+          nba.chooseTwoPlayers(nba.separateTeams(stats)).then((players) => {        
+            resolve(players)
+          })
         })
       })
-    })
+    })    
   }
   )
 }
@@ -98,7 +100,7 @@ function resetTimer() {
 
   time = setInterval(function() {        
     timerObj.innerHTML = seconds + "s"    
-    if (seconds < 11) {      
+    if (seconds < TIMER_WARNING) {      
       if (!timerIsRed) {
         timerIsRed = true
         turnOnColor()
@@ -107,9 +109,8 @@ function resetTimer() {
 
     if (seconds < 0) {
       clearInterval(time)
-      timerObj.innerHTML = "-"
-      alert('Timer has EXPIRED!')   
-      initializePage()   
+      clearInterval(colorFcn)
+      endGame()
     }
     seconds -= 1  
   }, 1000) 
@@ -164,7 +165,7 @@ function updatePage() {
   updateTable()
   displayLives()
   displayScore()
-  changeBtnStatus(false)
+  changeBtnStatus(false)  
 }
 
 function updatePlayers() {
@@ -234,6 +235,10 @@ const checkAnswer = (btn) => {
       if (streak % 2 === 0) {
         displayStreakMsg()
       }
+
+      if (Math.random() < EXTRA_LIFE_PROB) {
+        addLife()
+      }            
     } else {
       console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
       displayAnswerStatus(false)
@@ -244,9 +249,7 @@ const checkAnswer = (btn) => {
 
       // if no more life
       if (currLives < 0) {
-        alert('You are done!!!')
-        initializePage()
-        return
+        endGame()
       }   
   }
 
@@ -257,6 +260,15 @@ const checkAnswer = (btn) => {
     })
   }, WAIT_UPDATE_TIME)    
   resetTimer()
+}
+
+function addLife() {
+  const lifeAdded = document.getElementById('lifeAdded')
+  currLives += 1
+  lifeAdded.style.display = 'block'
+  setTimeout(() => {
+    lifeAdded.style.display = 'none'
+  }, 1000)
 }
 
 function initializePage() {
@@ -274,6 +286,10 @@ function initializePage() {
   resetTimer()
 }
 
+function endGame() {
+    sessionStorage.playerScore = score
+    window.location.href = 'gameOver.html'
+}
 
 window.onload = function () {    
   initializePage()
