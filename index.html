@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
-<link href="styles.css" rel="stylesheet"/>
 <link href="tables.css" rel="stylesheet"/>
 <style>
 
@@ -17,17 +16,13 @@ height: 100vh;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;">
-  <section id="control-center">
-    <div id="menu" class="fixed inset-0 flex items-center justify-center">
-      <div class="text-center">
-        <h1 class="text-white mb-6 text-5xl text-bold">Menu Title</h1>
-        <div>          
-          <button id="start" class="mt-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Start Game</button>                
-        </div>
-      </div>          
-    </div>    
 
-    <div id="gameScreen" class="text-center justify-center" style="display: none;">
+<div class='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white rounded-full text-center justify-center' style="width: 200px; margin: 10px;">
+  <button id="mainMenu">Return to Main Menu</button> 
+</div> 
+
+  <section id="control-center">
+    <div id="gameMeta" class="text-center justify-center mt-5">
       <div>
         <div class="flex items-center justify-center">        
           <div class="items-center" style="margin-right: 10px;">
@@ -48,18 +43,20 @@ height: 100vh;
         </div>
       </div>       
       
-      <div class="text-center justify-center">
+      <div id="statsMeta" class="text-center justify-center" style="margin: 20px;">
         <div>
-          <div class="flex items-center justify-center">         
-            <div style="width: 400px; height: 200px; padding-inline: 100px;">
-              <p>Score: <span id="score"></span></p>
-              <p>Lives: <span id="currLives"></span></p> 
-            </div>
+          <div class="flex items-center justify-center">                     
+            <div style="width: 400px; height: 200px">
+              <div class="bg-indigo-600 py-5 rounded-full" style="margin-inline-end: 50px;">
+                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Score: <span id="score"></span></p>
+                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Lives: <span id="currLives"></span></p> 
+              </div>
+            </div>            
 
             <div class="items-center">
               <table id="statTable">        
                 <tr>
-                  <th class="text-white text-2xl" colspan="2">Whose Stats Are These?</th>
+                  <th class="text-white text-1xl" colspan="2">Whose Stats Are These?</th>
                 </tr>
                 <tbody>
                   <tr>
@@ -98,27 +95,30 @@ height: 100vh;
               </table> 
             </div> 
 
-            <div style="width: 400px; height: 200px; padding-inline: 100px;">
-              <p>Timer: <span id="timer">20s</span></p>
+            <div style="width: 400px; height: 200px">
+              <div class="bg-indigo-600 px-2 rounded-full" style="margin-inline-start: 50px;">
+                <p class="text-white text-5xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Timer:</p>
+                <span class="text-white text-5xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" id="timer">-</span>
+              </div>
             </div>
 
           </div>  
         </div> 
       </div> 
                      
-      <div class="text-center justify-center">
+      <div id="playerOptions" class="text-center justify-center">
         <div>
           <div class="flex items-center justify-center">        
-            <div id="statusDiv" class="items-center" class="items-center" style="position: absolute; display: none">
+            <div id="statusDiv" class="items-center" class="items-center" style="position: absolute;">
               <img id="statusImage" src="">    
             </div>
-            <div class="items-center" style="margin: 10px;">
+            <div class="bg-white rounded-t-3xl items-center" style="margin-inline: 10px;">
               <button id="player1">Player1</button>
-              <img id="player1img" width="350" height="254">          
+              <img id="player1img" width="350" height="254" style="cursor: pointer;">          
             </div>
-            <div class="items-center" style="margin: 10px;">
+            <div class="bg-white rounded-t-3xl items-center" style="margin-inline: 10px;">
               <button id="player2">Player2</button>
-              <img id="player2img" width="350" height="254">          
+              <img id="player2img" width="350" height="254" style="cursor: pointer;">          
             </div>       
           </div>  
         </div> 

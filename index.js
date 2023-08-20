@@ -3,21 +3,24 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
-const STARTING_HEALTH = 100
-const TIMER_MAX = 9000
+const STARTING_HEALTH = 50
+const TIMER_MAX = 10000
 const WAIT_UPDATE_TIME = 1500
 const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
-const player1Btn = document.getElementById('player1');
-const player2Btn = document.getElementById('player2');
+const player1Btn = document.getElementById('player1')
+const player2Btn = document.getElementById('player2')
+const player1ImgBtn = document.getElementById('player1img')
+const player2ImgBtn = document.getElementById('player2img')
+const timerObj = document.getElementById('timer')
 let correctPlayer, correctBtnId, wrongBtnId
-let currLives, streak, score, time
-let player1, player2, team1ID, team2ID
+let currLives, streak, score, time, colorVal, addOrSub, colorFcn
+let player1, player2
+let seconds, timerIsRed
 
 function getNBAData() {
   const currentYear = new Date().getFullYear()    
-  const randomYear = Math.floor(Math.random() * 1 + (currentYear - 1))
-  // const randomTeamId = Math.floor(Math.random() * (31-1) + 1)
-  const randomTeamId = 8
+  const randomYear = Math.floor(Math.random() * 1 + (currentYear - 1))  
+  const randomTeamId = (sessionStorage.selectedTeam == "0") ? Math.floor(Math.random() * (31-1) + 1): sessionStorage.selectedTeam
   
   return new Promise((resolve) => {
     nba.getRandomGame(randomYear, randomTeamId).then((game) => {
@@ -80,30 +83,52 @@ function updateTitle() {
     homeLocation = player2['team']['city']
   }
   
-  document.getElementById('gameSummary').innerHTML = `@ ${homeLocation}`
+  document.getElementById('gameSummary').innerHTML = `@${homeLocation}`
   document.getElementById('gameDate').innerHTML = date
   document.getElementById('team1pts').innerHTML = `${homeScore} pts`
-  document.getElementById('team2pts').innerHTML = `${visitorScore} pts`
-  // document.getElementById('boxScore').innerHTML = `${homeScore} - ${visitorScore}`
+  document.getElementById('team2pts').innerHTML = `${visitorScore} pts`  
 }
 
 function resetTimer() {
-  var seconds = TIMER_MAX
-  time = setInterval(function() {        
-    document.getElementById("timer").innerHTML = seconds + "s"
+  seconds = TIMER_MAX  
+  colorVal = 260
+  addOrSub = -1
+  timerObj.style.color = 'white'
+  timerIsRed = false
 
-    if (seconds < 8995) {
-      document.getElementById('timer').style.color = 'red'
+  time = setInterval(function() {        
+    timerObj.innerHTML = seconds + "s"    
+    if (seconds < 11) {      
+      if (!timerIsRed) {
+        timerIsRed = true
+        turnOnColor()
+      }      
     }
 
     if (seconds < 0) {
       clearInterval(time)
-      document.getElementById('timer').innerHTML = "Resetting..."
+      timerObj.innerHTML = "-"
       alert('Timer has EXPIRED!')   
       initializePage()   
     }
     seconds -= 1  
-  }, 1000)
+  }, 1000) 
+}
+
+function turnOnColor() {
+  colorFcn = setInterval(function() {       
+    if (colorVal < 150) {
+      addOrSub = 1
+    }
+    if (colorVal > 255) {
+      addOrSub = -1
+    }
+    colorVal += (5 * addOrSub)    
+    timerObj.style.color = `rgb(${colorVal},0,0)`
+    if (seconds < 0) {
+      clearInterval(colorFcn)
+    }
+  }, 50)  
 }
 
 function updatePlayerImg() {
@@ -139,7 +164,6 @@ function updatePage() {
   updateTable()
   displayLives()
   displayScore()
-  resetTimer()
   changeBtnStatus(false)
 }
 
@@ -166,8 +190,13 @@ function displayScore() {
 }
 
 function changeBtnStatus(disableBool) {
+  let onclickFcn = (disableBool) ? undefined: checkAnswer
+  
   player1Btn.disabled = disableBool
-  player2Btn.disabled = disableBool
+  player2Btn.disabled = disableBool  
+  
+  player1ImgBtn.onclick = onclickFcn
+  player2ImgBtn.onclick = onclickFcn
 }
 
 function changeBtnColors() {
@@ -176,27 +205,26 @@ function changeBtnColors() {
 }
 
 function displayAnswerStatus(correctBool) {
-  let statusDiv = document.getElementById('statusDiv')
-  let statusImage = document.getElementById('statusImage')  
-
   if (correctBool) {
-    statusImage.src = "static/greenCheck.png"
+    document.getElementById('statusImage') .src = "static/greenCheck.png"
   } else {
-    statusImage.src = "static/redX.png"
+    document.getElementById('statusImage') .src = "static/redX.png"
   }
 
-  statusDiv.style.display = 'block'
+  document.getElementById('statusDiv').style.display = 'block'
 }
 
 function hideAnswerStatus() {
   document.getElementById('statusDiv').style.display = 'none'
 }
 
-const checkAnswer = (btn) => {       
+const checkAnswer = (btn) => {   
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
   clearInterval(time)
-  if (btn.target.id === correctBtnId) {
+  clearInterval(colorFcn)
+  
+  if (btn.target.id.startsWith(correctBtnId)) {
       console.log('YOU ARE CORRECT!')
       displayAnswerStatus(true)
       
@@ -228,37 +256,32 @@ const checkAnswer = (btn) => {
       updatePage()
     })
   }, WAIT_UPDATE_TIME)    
+  resetTimer()
 }
 
 function initializePage() {
   currLives = STARTING_HEALTH
   score = 0
   streak = 0
-
+  seconds = TIMER_MAX  
+  
   let promise = updatePlayers()
   setTimeout(() => {
     promise.then(() => {
       updatePage()
-      document.getElementById('gameScreen').style.display = 'block' 
-      // document.getElementById('gameMeta').style.display = 'block'
-      document.getElementById('menu').style.display = 'none'  
     }, WAIT_UPDATE_TIME)
   })
+  resetTimer()
 }
 
 
-window.onload = function () {  
+window.onload = function () {    
   initializePage()
   player1Btn.addEventListener('click', checkAnswer)
   player2Btn.addEventListener('click', checkAnswer)  
-  // document.getElementById('test2').style.fontFamily = "Impact,Charcoal,sans-serif";
-  // document.getElementById('test').style.fontFamily = "Andale Mono, monospace";
-  // document.getElementById('what').addEventListener('click', () => {
-  //   console.log('I got clicked')
-  // })
-  //   document.getElementById('start').addEventListener('click', () =>{
-  //   initializePage()
-  //   player1Btn.addEventListener('click', checkAnswer)
-  //   player2Btn.addEventListener('click', checkAnswer)   
-  // })
+  player1ImgBtn.onclick = checkAnswer
+  player2ImgBtn.onclick = checkAnswer
+  document.getElementById('mainMenu').onclick = function () {
+    window.location.href = 'menu.html'
+  }
 }
