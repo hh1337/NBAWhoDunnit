@@ -1,5 +1,7 @@
 <html lang="en">
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="button.css" rel="stylesheet"/>
+<link href="newStyles.css" rel="stylesheet"/>
 <head>
     <title>Document</title>
     <script type="module" src="menu.js"></script>
@@ -14,7 +16,15 @@ height: 100vh;
     <div class="flex items-center justify-center" style="padding-top: 5%;">
         <h1 id="menuString" class="text-white mb-6 text-5xl font-medium">¿NBA Who Dunnit?</h1>
     </div>
-    <div id="menu" class="flex items-center justify-center">
+
+    
+    <div id="app"></div>
+
+    <div class="flex items-center justify-center">
+      <img src="static/shaq.gif" width="500px" height="200px">
+    </div>
+
+    <div id="menu" class="flex items-center justify-center mt-10">
         <div class="text-center">          
           <label for="teams" class="block mb-2 text-white px-2">Team to always include</label>
           <select id="teams" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">

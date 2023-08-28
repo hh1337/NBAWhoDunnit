@@ -2,6 +2,8 @@
 <html>
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
 <link href="tables.css" rel="stylesheet"/>
+<link href="button.css" rel="stylesheet"/>
+<link href="timer.css" rel="stylesheet"/>
 <style>
 
 </style>
@@ -17,12 +19,19 @@ height: 100vh;
 -moz-background-size: cover;
 -o-background-size: cover;">
 
-<div class='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white rounded-full text-center justify-center' style="width: 200px; margin: 10px;">
-  <button id="mainMenu">Return to Main Menu</button> 
-</div> 
+<div class="container">
+  <div class="align">
+    <button id="mainMenu" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Return to Main Menu</button>                
+    <button id="endGame" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">End Game</button>   
+  </div>
+  <div class="align">
+    <p class="text-white text-2xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Score: <span id="score"></span></p>
+    <p class="text-white text-2xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Lives: <span id="currLives"></span></p>  
+  </div>
+</div>
 
-  <section id="control-center">
-    <div id="gameMeta" class="text-center justify-center mt-5">
+  <section id="control-center">      
+    <div id="gameMeta" class="mt-3 text-center justify-center">
       <div>
         <div class="flex items-center justify-center">        
           <div class="items-center" style="margin-right: 10px;">
@@ -35,22 +44,18 @@ height: 100vh;
           <div class="items-center" style="margin-left: 10px">
             <img id="team2img" class="bg-indigo-300 rounded-full px-6" width="200" height="100">
             <h1 class="text-white text-bold text-3xl" id="team2pts"></h1>
-          </div>        
+          </div>     
         </div>  
-        <h1><span class="text-white text-3xl font-mono text-bold" id="gameSummary"></span></h1>   
+        <h1><span class="text-white text-2xl font-mono text-bold" id="gameSummary"></span></h1>   
           <h1><span class="text-white text-2xl font-mono text-bold" id="gameDate"></span></h1>  
           <h1><span class="text-white text-2xl font-mono text-bold" id="gameDate"></span></h1>            
         </div>
-      </div>       
+      </div>      
       
       <div id="statsMeta" class="text-center justify-center" style="margin: 20px;">
         <div>
           <div class="flex items-center justify-center">                     
-            <div class="items-center" style="width: 400px; height: 200px">
-              <div class="bg-indigo-600 py-5 rounded-full" style="margin-inline-end: 50px;">                
-                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Score: <span id="score"></span></p>
-                <p class="text-white text-3xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Lives: <span id="currLives"></span></p>                                 
-              </div>              
+            <div class="items-center" style="width: 400px; height: 200px">        
               <p class="text-green-300 text-3xl flex items-center justify-center" id="lifeAdded" style="margin-right: 50px;display: none;">+1 Life Added!</p>              
             </div>            
 
@@ -96,13 +101,11 @@ height: 100vh;
               </table> 
             </div> 
 
-            <div style="width: 400px; height: 200px">
-              <div class="bg-indigo-600 px-2 rounded-full" style="margin-inline-start: 50px;">
-                <p class="text-white text-5xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Timer:</p>
-                <span class="text-white text-5xl" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" id="timer">-</span>
-              </div>
+            
+            <div style="width: 400px; height: 200px; margin-inline-start: 50px;">
+              <div id="timer"></div>
             </div>
-
+            
           </div>  
         </div> 
       </div> 

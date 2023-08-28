@@ -4,20 +4,39 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
 const STARTING_HEALTH = 50
-const TIMER_MAX = 5000
 const WAIT_UPDATE_TIME = 1500
-const TIMER_WARNING = 11
 const EXTRA_LIFE_PROB = 1
 const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
 const player1Btn = document.getElementById('player1')
 const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
-const timerObj = document.getElementById('timer')
+
+const TIME_LIMIT = 1000;
+const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 5;
+const ALERT_THRESHOLD = 2;
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
+let timePassed = 0;
+let timeLeft = TIME_LIMIT;
+let timerInterval = null;
+let remainingPathColor = COLOR_CODES.info.color;
 let correctPlayer, correctBtnId, wrongBtnId
-let currLives, streak, score, time, colorVal, addOrSub, colorFcn
+let currLives, streak, score
 let player1, player2
-let seconds, timerIsRed
 
 function getNBAData() {  
   return new Promise((resolve) => {
@@ -85,52 +104,12 @@ function updateTitle() {
     homeLocation = player2['team']['city']
   }
   
-  document.getElementById('gameSummary').innerHTML = `@${homeLocation}`
-  document.getElementById('gameDate').innerHTML = date
+  document.getElementById('gameSummary').innerHTML = `@${homeLocation} on ${date}`
   document.getElementById('team1pts').innerHTML = `${homeScore} pts`
   document.getElementById('team2pts').innerHTML = `${visitorScore} pts`  
 }
 
-function resetTimer() {
-  seconds = TIMER_MAX  
-  colorVal = 260
-  addOrSub = -1
-  timerObj.style.color = 'white'
-  timerIsRed = false
 
-  time = setInterval(function() {        
-    timerObj.innerHTML = seconds + "s"    
-    if (seconds < TIMER_WARNING) {      
-      if (!timerIsRed) {
-        timerIsRed = true
-        turnOnColor()
-      }      
-    }
-
-    if (seconds < 0) {
-      clearInterval(time)
-      clearInterval(colorFcn)
-      endGame()
-    }
-    seconds -= 1  
-  }, 1000) 
-}
-
-function turnOnColor() {
-  colorFcn = setInterval(function() {       
-    if (colorVal < 150) {
-      addOrSub = 1
-    }
-    if (colorVal > 255) {
-      addOrSub = -1
-    }
-    colorVal += (5 * addOrSub)    
-    timerObj.style.color = `rgb(${colorVal},0,0)`
-    if (seconds < 0) {
-      clearInterval(colorFcn)
-    }
-  }, 50)  
-}
 
 function updatePlayerImg() {
   let player1Id = player1['player']['id']
@@ -222,8 +201,8 @@ function hideAnswerStatus() {
 const checkAnswer = (btn) => {   
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
-  clearInterval(time)
-  clearInterval(colorFcn)
+    
+  clearInterval(timerInterval)
   
   if (btn.target.id.startsWith(correctBtnId)) {
       console.log('YOU ARE CORRECT!')
@@ -255,8 +234,9 @@ const checkAnswer = (btn) => {
 
   let promise = updatePlayers()
   setTimeout(() => {
-    promise.then(() => {      
+    promise.then(() => {          
       updatePage()
+      startTimer()
     })
   }, WAIT_UPDATE_TIME)    
   resetTimer()
@@ -275,12 +255,12 @@ function initializePage() {
   currLives = STARTING_HEALTH
   score = 0
   streak = 0
-  seconds = TIMER_MAX  
   
   let promise = updatePlayers()
   setTimeout(() => {
-    promise.then(() => {
-      updatePage()
+    promise.then(() => {    
+      updatePage()      
+      startTimer()
     }, WAIT_UPDATE_TIME)
   })
   resetTimer()
@@ -291,6 +271,104 @@ function endGame() {
     window.location.href = 'gameOver.html'
 }
 
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timePassed = timePassed += 1;
+    timeLeft = TIME_LIMIT - timePassed;
+    document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+    );
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+
+    if (timeLeft === 0) {
+      clearInterval(timerInterval)
+      let promise = updatePlayers()
+      setTimeout(() => {
+        promise.then(() => {    
+          updatePage()      
+          startTimer()
+        }, WAIT_UPDATE_TIME)
+      })
+      resetTimer()
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  timeLeft = TIME_LIMIT
+  timePassed = 0
+
+  document.getElementById("timer").innerHTML = `
+  <div class="base-timer">
+    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+        <path
+          id="base-timer-path-remaining"
+          stroke-dasharray="283"
+          class="base-timer__path-remaining ${remainingPathColor}"
+          d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+      </g>
+    </svg>
+    <span id="base-timer-label" class="base-timer__label">${formatTime(
+      timeLeft
+    )}</span>
+  </div>
+  `;  
+}
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${minutes}:${seconds}`;
+}
+
+function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft <= alert.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(warning.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(info.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(warning.color);
+  }
+}
+
+function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+}
+
+function setCircleDasharray() {
+  const circleDasharray = `${(
+    calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+    .getElementById("base-timer-path-remaining")
+    .setAttribute("stroke-dasharray", circleDasharray);
+}
+
 window.onload = function () {    
   initializePage()
   player1Btn.addEventListener('click', checkAnswer)
@@ -299,5 +377,9 @@ window.onload = function () {
   player2ImgBtn.onclick = checkAnswer
   document.getElementById('mainMenu').onclick = function () {
     window.location.href = 'menu.html'
+  }
+  document.getElementById('endGame').onclick = function () {
+    endGame()
+    window.location.href = 'gameOver.html'
   }
 }
