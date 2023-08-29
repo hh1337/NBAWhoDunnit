@@ -33,6 +33,8 @@ const COLOR_CODES = {
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
 let timerInterval = null;
+let lifeAddedOpacity
+let lifeOpacityInterval = null
 let remainingPathColor = COLOR_CODES.info.color;
 let correctPlayer, correctBtnId, wrongBtnId
 let currLives, streak, score
@@ -135,7 +137,14 @@ function updateTeamImg() {
   document.getElementById('team2img').src = getTeamImg(team2ID)
 }
 
+function updatePlayerCards() {
+  document.getElementById('player1Card').className = 'playerCard'
+  document.getElementById('player2Card').className = 'playerCard'
+}
+
 function updatePage() {
+  resetLifeAdded()
+  updatePlayerCards()
   hideAnswerStatus()
   updatePlayerBtns()    
   updatePlayerImg()
@@ -198,14 +207,22 @@ function hideAnswerStatus() {
   document.getElementById('statusDiv').style.display = 'none'
 }
 
+function resetLifeAdded() {
+  document.getElementById('lifeAdded').style.opacity = 0
+  clearInterval(lifeOpacityInterval)
+}
+
 const checkAnswer = (btn) => {   
+  document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
+  document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
+
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
     
-  clearInterval(timerInterval)
+  clearInterval(timerInterval)  
   
   if (btn.target.id.startsWith(correctBtnId)) {
-      console.log('YOU ARE CORRECT!')
+      // console.log('YOU ARE CORRECT!')
       displayAnswerStatus(true)
       
       // update streak and score
@@ -219,7 +236,7 @@ const checkAnswer = (btn) => {
         addLife()
       }            
     } else {
-      console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
+      // console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
       displayAnswerStatus(false)
 
       // decrement health and reset streak
@@ -242,19 +259,26 @@ const checkAnswer = (btn) => {
   resetTimer()
 }
 
-function addLife() {
-  const lifeAdded = document.getElementById('lifeAdded')
+function addLife() {  
   currLives += 1
-  lifeAdded.style.display = 'block'
-  setTimeout(() => {
-    lifeAdded.style.display = 'none'
-  }, 1000)
+  lifeAddedOpacity = 1  
+
+  lifeOpacityInterval = setInterval(() => {
+    lifeAddedOpacity -= 0.05
+    document.getElementById('lifeAdded').style.opacity = lifeAddedOpacity
+
+    if (lifeAddedOpacity === 0) {
+      clearInterval(lifeOpacityInterval)
+    }
+  }, 40);
 }
 
 function initializePage() {
   currLives = STARTING_HEALTH
   score = 0
   streak = 0
+
+  document.getElementById('lifeAdded').style.opacity = 0
   
   let promise = updatePlayers()
   setTimeout(() => {
@@ -381,5 +405,5 @@ window.onload = function () {
   document.getElementById('endGame').onclick = function () {
     endGame()
     window.location.href = 'gameOver.html'
-  }
+  }      
 }

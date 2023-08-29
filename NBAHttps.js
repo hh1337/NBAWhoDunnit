@@ -49,7 +49,7 @@ export default class NBAHttps {
     return new Promise((resolve, reject) => {
       this.sendApiRequest(endpoint).then(responseData => {
         const meta = responseData['meta']
-        console.log(meta)
+        // console.log(meta)
         const perPage = meta['per_page']
         const total = meta['total_count']
 
@@ -58,9 +58,9 @@ export default class NBAHttps {
         const pageIdx = randomIdx - (perPage * (goToPage - 1)) - 1
 
         const newEndpoint = `${endpoint}&page=${goToPage}`   
-        console.log(newEndpoint)     
+        // console.log(newEndpoint)     
         this.sendApiRequest(newEndpoint).then(responseData => {
-          console.log(responseData['data'][pageIdx])
+          // console.log(responseData['data'][pageIdx])
           resolve(responseData['data'][pageIdx])
         })
 
