@@ -1,6 +1,6 @@
 .playerCard {
     border: none;
-    padding: 10px;
+    padding: 1px;
     font-size: 1.2rem;
     cursor: pointer;
     outline: inherit;
@@ -18,7 +18,7 @@
 
   .playerCardRight {
     border: none;
-    padding: 10px;
+    padding: 1px;
     font-size: 1.2rem;
     cursor: pointer;
     outline: inherit;
@@ -30,7 +30,7 @@
 
   .playerCardWrong {
     border: none;
-    padding: 10px;
+    padding: 1px;
     font-size: 1.2rem;
     cursor: pointer;
     outline: inherit;

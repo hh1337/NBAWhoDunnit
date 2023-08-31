@@ -3,9 +3,6 @@ table, th, td {
     table-layout: fixed;
     width: 200px;
   }
-  body {
-          margin: 10px;		
-      }	
   .child {
     background-color: orange;
     width: 100px;

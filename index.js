@@ -3,7 +3,8 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
-const STARTING_HEALTH = 50
+const STARTING_HEALTH = 420
+const STARTING_SCORE = 69
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 1
 const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
@@ -12,7 +13,7 @@ const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
-const TIME_LIMIT = 1000;
+const TIME_LIMIT = 1000
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 5;
 const ALERT_THRESHOLD = 2;
@@ -107,8 +108,7 @@ function updateTitle() {
   }
   
   document.getElementById('gameSummary').innerHTML = `@${homeLocation} on ${date}`
-  document.getElementById('team1pts').innerHTML = `${homeScore} pts`
-  document.getElementById('team2pts').innerHTML = `${visitorScore} pts`  
+  document.getElementById('ptsSummary').innerHTML = `${homeScore} - ${visitorScore}`
 }
 
 
@@ -145,7 +145,6 @@ function updatePlayerCards() {
 function updatePage() {
   resetLifeAdded()
   updatePlayerCards()
-  hideAnswerStatus()
   updatePlayerBtns()    
   updatePlayerImg()
   updateTeamImg()
@@ -180,10 +179,7 @@ function displayScore() {
 
 function changeBtnStatus(disableBool) {
   let onclickFcn = (disableBool) ? undefined: checkAnswer
-  
-  player1Btn.disabled = disableBool
-  player2Btn.disabled = disableBool  
-  
+    
   player1ImgBtn.onclick = onclickFcn
   player2ImgBtn.onclick = onclickFcn
 }
@@ -191,20 +187,6 @@ function changeBtnStatus(disableBool) {
 function changeBtnColors() {
   document.getElementById(correctBtnId).className = 'bg-gradient-to-r from-green-800 via-green-600 to-green-400 border-2 text-white text-white px-5 py-1 rounded-full'
   document.getElementById(wrongBtnId).className = 'bg-gradient-to-r from-red-800 via-red-600 to-red-400 border-2 text-white px-5 py-1 rounded-full'  
-}
-
-function displayAnswerStatus(correctBool) {
-  if (correctBool) {
-    document.getElementById('statusImage') .src = "static/greenCheck.png"
-  } else {
-    document.getElementById('statusImage') .src = "static/redX.png"
-  }
-
-  document.getElementById('statusDiv').style.display = 'block'
-}
-
-function hideAnswerStatus() {
-  document.getElementById('statusDiv').style.display = 'none'
 }
 
 function resetLifeAdded() {
@@ -223,7 +205,6 @@ const checkAnswer = (btn) => {
   
   if (btn.target.id.startsWith(correctBtnId)) {
       // console.log('YOU ARE CORRECT!')
-      displayAnswerStatus(true)
       
       // update streak and score
       score += 1
@@ -237,7 +218,6 @@ const checkAnswer = (btn) => {
       }            
     } else {
       // console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
-      displayAnswerStatus(false)
 
       // decrement health and reset streak
       currLives -= 1
@@ -270,12 +250,12 @@ function addLife() {
     if (lifeAddedOpacity === 0) {
       clearInterval(lifeOpacityInterval)
     }
-  }, 40);
+  }, 100);
 }
 
 function initializePage() {
   currLives = STARTING_HEALTH
-  score = 0
+  score = STARTING_SCORE
   streak = 0
 
   document.getElementById('lifeAdded').style.opacity = 0
@@ -283,7 +263,7 @@ function initializePage() {
   let promise = updatePlayers()
   setTimeout(() => {
     promise.then(() => {    
-      updatePage()      
+      updatePage()       
       startTimer()
     }, WAIT_UPDATE_TIME)
   })
@@ -307,15 +287,23 @@ function startTimer() {
     setRemainingPathColor(timeLeft);
 
     if (timeLeft === 0) {
-      clearInterval(timerInterval)
-      let promise = updatePlayers()
+      changeBtnStatus(true) 
+      clearInterval(timerInterval)      
       setTimeout(() => {
-        promise.then(() => {    
-          updatePage()      
-          startTimer()
-        }, WAIT_UPDATE_TIME)
-      })
-      resetTimer()
+        let promise = updatePlayers()
+        setTimeout(() => {
+          promise.then(() => {    
+            resetTimer() 
+            updatePage()      
+            startTimer()
+          }, WAIT_UPDATE_TIME)
+        })         
+      }, 3000)
+
+      document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
+      document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
+
+      // document.getElementById('base-timer-label').innerHTML = "Time's Up!"            
     }
   }, 1000);
 }
@@ -395,8 +383,6 @@ function setCircleDasharray() {
 
 window.onload = function () {    
   initializePage()
-  player1Btn.addEventListener('click', checkAnswer)
-  player2Btn.addEventListener('click', checkAnswer)  
   player1ImgBtn.onclick = checkAnswer
   player2ImgBtn.onclick = checkAnswer
   document.getElementById('mainMenu').onclick = function () {

@@ -1,6 +1,7 @@
 button {
   border: none;
   padding: 10px;
+  padding-inline: 20px;
   font-size: 1.2rem;
   cursor: pointer;
   outline: inherit;
@@ -18,11 +19,23 @@ button:active {
     box-shadow: inset 2px 2px 10px #000;
 }
 
+.box {
+  border: none;
+  padding: 10px;
+  padding-inline: 20px;
+  font-size: 2rem;
+  outline: inherit;
+  box-shadow: 5px 5px 5px       #000;
+  margin-inline: 30px;
+  background-color: white;
+  font-palette: --Purples;
+  background-image: linear-gradient(to bottom right, blue, green)
+}
+
 .container{
     display:flex;
     justify-content: space-between;
     background: grey;
-    width: 100%;
     padding: 15px;
     max-width: 100%;;
 }
