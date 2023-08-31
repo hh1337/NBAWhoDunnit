@@ -42,3 +42,22 @@ button:active {
 .align{
     display:flex;
 }
+
+.dropdown-label {
+  margin-top: 10px;
+  font-size: 2rem;
+}
+
+.center {
+  font-size: 5rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+}
+
+/* .center-pic {
+  position: fixed;
+  height: 500px
+} */

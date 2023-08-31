@@ -28,11 +28,19 @@ height: 100vh;
   </div>
   <div class="align">
     <p class="box">Score: <span id="score"></span></p>
+    <div class="box" style="font-size: 1.5rem; vertical-align: middle;">
+      <p>Streak: <span id="streak"></span></p> 
+      <div style="font-size: 0.8rem;">
+        <p>Highest Streak: <span id="highestStreak"></span></p> 
+      </div>      
+    </div>    
     <p class="box">Lives: <span id="currLives"></span></p> 
   </div>
 </div>
 
-  <section id="control-center">      
+<div class="center" id="loading">Loading...</div>
+
+  <section id="control-center" style="display: none;">      
     <div id="gameMeta" class="mt-3 text-center justify-center">
       <div>      
         <div class="flex items-center justify-center">        
@@ -60,6 +68,10 @@ height: 100vh;
           <div class="flex items-center justify-center">                      
             <div class="items-center" style="width: 400px">                       
             </div>            
+
+            <div id="streakPhoto" style="position: absolute;display: none;">
+              <img id="streakPhotoId" src="static/streakPhotos/0.png" style="height: 500px; border: 10px solid rgb(0, 119, 255)">              
+            </div>                        
 
             <div class="items-center">
               <table id="statTable">        

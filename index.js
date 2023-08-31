@@ -3,7 +3,7 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
-const STARTING_HEALTH = 420
+const STARTING_HEALTH = 0
 const STARTING_SCORE = 69
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 1
@@ -13,7 +13,7 @@ const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
-const TIME_LIMIT = 1000
+const TIME_LIMIT = 5000
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 5;
 const ALERT_THRESHOLD = 2;
@@ -36,9 +36,12 @@ let timeLeft = TIME_LIMIT;
 let timerInterval = null;
 let lifeAddedOpacity
 let lifeOpacityInterval = null
+let loadingOpacity
+let loadingOpacityInterval = null
+let streakPhotoColorInterval = null
 let remainingPathColor = COLOR_CODES.info.color;
 let correctPlayer, correctBtnId, wrongBtnId
-let currLives, streak, score
+let currLives, streak, highestStreak, score
 let player1, player2
 
 function getNBAData() {  
@@ -87,6 +90,7 @@ function updatePlayerBtns() {
     correctPlayer = player2
     wrongBtnId = 'player1'
   }
+  console.log(correctBtnId)
 }
 
 function updateTitle() {
@@ -142,8 +146,14 @@ function updatePlayerCards() {
   document.getElementById('player2Card').className = 'playerCard'
 }
 
+function updateStreak() {
+  document.getElementById('streak').innerHTML = streak
+  document.getElementById('highestStreak').innerHTML = highestStreak
+}
+
 function updatePage() {
   resetLifeAdded()
+  updateStreak()
   updatePlayerCards()
   updatePlayerBtns()    
   updatePlayerImg()
@@ -163,10 +173,6 @@ function updatePlayers() {
         resolve()
       })
     })
-}
-
-function displayStreakMsg() {
-  console.log(`You are on a ${streak} win streak!!!`)
 }
 
 function displayLives() {
@@ -194,9 +200,39 @@ function resetLifeAdded() {
   clearInterval(lifeOpacityInterval)
 }
 
+function displayStreakPhoto() {
+  const colors = ['blue','red','green','yellow','orange']
+  const colorLen = colors.length
+  const totalPhotos = 2
+  let photoId = Math.floor(Math.random() * totalPhotos)
+
+  document.getElementById('streakPhoto').style.display = 'block' 
+  document.getElementById('timer').style.display = 'none'
+  document.getElementById('streakPhotoId').src = `static/streakPhotos/${photoId}.png`
+  
+  let idx = -1
+  streakPhotoColorInterval = setInterval(() => {    
+    idx += 1    
+    document.getElementById('streakPhotoId').style.border = `10px solid ${colors[idx]}`
+
+    if (idx == colorLen - 1) {
+      idx = -1
+    }    
+
+  }, 100);  
+}
+
+function disableStreakPhoto() {
+  clearInterval(streakPhotoColorInterval)
+  document.getElementById('streakPhoto').style.display = 'none' 
+  document.getElementById('timer').style.display = 'block'
+}
+
 const checkAnswer = (btn) => {   
   document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
   document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
+  
+  let showStreakPhoto = false
 
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
@@ -204,20 +240,24 @@ const checkAnswer = (btn) => {
   clearInterval(timerInterval)  
   
   if (btn.target.id.startsWith(correctBtnId)) {
-      // console.log('YOU ARE CORRECT!')
+      console.log('YOU ARE CORRECT!')      
       
       // update streak and score
       score += 1
-      streak += 1                
+      streak += 1         
       if (streak % 2 === 0) {
-        displayStreakMsg()
+        showStreakPhoto = true
+      }  
+      if (streak > highestStreak) {
+        highestStreak = streak
       }
-
+      
+      // add extra life based on chance
       if (Math.random() < EXTRA_LIFE_PROB) {
         addLife()
       }            
     } else {
-      // console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
+      console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
 
       // decrement health and reset streak
       currLives -= 1
@@ -231,11 +271,17 @@ const checkAnswer = (btn) => {
 
   let promise = updatePlayers()
   setTimeout(() => {
-    promise.then(() => {          
+    promise.then(() => {    
+      if (showStreakPhoto) {
+        disableStreakPhoto()   
+      }        
       updatePage()
       startTimer()
     })
-  }, WAIT_UPDATE_TIME)    
+  }, WAIT_UPDATE_TIME)   
+  if (showStreakPhoto) {
+    displayStreakPhoto()
+  }  
   resetTimer()
 }
 
@@ -250,28 +296,49 @@ function addLife() {
     if (lifeAddedOpacity === 0) {
       clearInterval(lifeOpacityInterval)
     }
-  }, 100);
+  }, 50);
+}
+
+function flashLoading() {  
+  loadingOpacity = 1  
+  let loadingSign = -1
+  loadingOpacityInterval = setInterval(() => {
+    loadingOpacity += 0.1 * loadingSign
+    document.getElementById('loading').style.opacity = loadingOpacity
+
+    if (loadingOpacity < 0) {
+      loadingSign = 1
+    }
+    if (loadingOpacity > 1) {
+      loadingSign = -1
+    }
+
+  }, 20);
 }
 
 function initializePage() {
   currLives = STARTING_HEALTH
   score = STARTING_SCORE
   streak = 0
-
-  document.getElementById('lifeAdded').style.opacity = 0
+  highestStreak = 0
   
   let promise = updatePlayers()
   setTimeout(() => {
     promise.then(() => {    
+      clearInterval(loadingOpacityInterval)
+      document.getElementById('loading').style.display = 'none'      
+      document.getElementById('control-center').style.display = 'block'      
       updatePage()       
       startTimer()
     }, WAIT_UPDATE_TIME)
   })
   resetTimer()
+  flashLoading()
 }
 
 function endGame() {
     sessionStorage.playerScore = score
+    sessionStorage.highestStreak = highestStreak
     window.location.href = 'gameOver.html'
 }
 
@@ -287,6 +354,8 @@ function startTimer() {
     setRemainingPathColor(timeLeft);
 
     if (timeLeft === 0) {
+      currLives -= 1
+
       changeBtnStatus(true) 
       clearInterval(timerInterval)      
       setTimeout(() => {
@@ -303,7 +372,7 @@ function startTimer() {
       document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
       document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
 
-      // document.getElementById('base-timer-label').innerHTML = "Time's Up!"            
+      document.getElementById('base-timer-label').innerHTML = "Time's Up!"            
     }
   }, 1000);
 }
@@ -391,5 +460,5 @@ window.onload = function () {
   document.getElementById('endGame').onclick = function () {
     endGame()
     window.location.href = 'gameOver.html'
-  }      
+  }       
 }
