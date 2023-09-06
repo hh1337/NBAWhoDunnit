@@ -3,7 +3,7 @@ import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'jso
 
 const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
-const STARTING_HEALTH = 0
+const STARTING_HEALTH = 10
 const STARTING_SCORE = 69
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 1
@@ -203,7 +203,7 @@ function resetLifeAdded() {
 function displayStreakPhoto() {
   const colors = ['blue','red','green','yellow','orange']
   const colorLen = colors.length
-  const totalPhotos = 2
+  const totalPhotos = 3
   let photoId = Math.floor(Math.random() * totalPhotos)
 
   document.getElementById('streakPhoto').style.display = 'block' 
