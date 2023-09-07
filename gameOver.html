@@ -1,12 +1,14 @@
 <html lang="en">
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="input.css" rel="stylesheet"/>
+<link href="newStyles.css" rel="stylesheet"/>
+<link href="button.css" rel="stylesheet"/>
+<script type="module" src="gameOver.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-    <script type="module" src="gameOver.js"></script>
-</head>
+</head>    
 <body style="background: url(static/background.png); 
 background-size: cover;
 background-repeat: no-repeat;
@@ -14,26 +16,36 @@ height: 100vh;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;">
-
     <div id="gameOver" class="text-white text-5xl flex text-center justify-center mt-5">                                   
         <div class="items-center">                                                  
-            <h1>Game Over</h1>
+            <h1 class="purples">Game Over</h1>
             <img id="sadLebron" src="static/sadLebron.jpg">      
         </div>                                  
     </div>         
     <div class="text-white text-5xl flex text-center justify-center">                                               
-        <p style="margin: 5px;">Score: <span id="gameOverScore">VALUE</span></p>                                                     
+        <p style="margin: 5px;">Score: <span id="gameOverScore" class="mint">VALUE</span></p>                                                     
     </div>           
 
     <div class="text-white text-5xl flex text-center justify-center mt-3">                                               
-        <p style="margin: 5px;">Highest Streak: <span id="highestStreak">VALUE</span></p>     
+        <p style="margin: 5px;">Highest Streak: <span id="highestStreak" class="mint">VALUE</span></p>     
     </div>               
+
+    <div class="text-white flex text-center justify-center mt-5">                                               
+        <!-- <div class="input-group">
+            <label class="input-group__label" for="myInput">Name</label>
+            <input type="text" id="myInput" class="input-group__input" value="This is my input" />
+        </div> -->
+        <div class="form__group field">
+            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required/>
+            <label for="name" class="form__label">Name</label>
+          </div>                
+        <button id="submitScoreBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Submit High Score</button>
+    </div>           
 
     <div class="text-white flex text-center justify-center mt-5">                                               
         <button id="mmBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Main Menu</button>
         <button id="playAgainBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Play Again?</button>
-        <button id="submitScoreBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Submit High Score</button>
-    </div>           
-                
+    </div>               
+    
 </body>
 </html>

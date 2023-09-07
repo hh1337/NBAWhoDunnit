@@ -313,7 +313,7 @@ function flashLoading() {
       loadingSign = -1
     }
 
-  }, 20);
+  }, 30);
 }
 
 function initializePage() {
