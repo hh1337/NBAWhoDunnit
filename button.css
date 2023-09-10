@@ -35,9 +35,10 @@ button:active {
 .container{
     display:flex;
     justify-content: space-between;
-    background: grey;
+    /* background: rgb(99, 79, 79); */
     padding: 15px;
     max-width: 100%;;
+    background: linear-gradient(#524e4e, #c6c7cf);
 }
 .align{
     display:flex;

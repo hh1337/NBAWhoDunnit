@@ -1,15 +1,11 @@
 <html lang="en">
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
 <head>
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" /> -->
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> -->
-    <!-- <meta charset="UTF-8" /> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
-    <!-- <script src="https://unpkg.com/@phosphor-icons/web"></script> -->
     <link
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
     <script type="module" src="leaderboard.js"></script>
     <link href="newStyles.css" rel="stylesheet"/>
     <link href="leaderboard.css" rel="stylesheet"/>
@@ -30,15 +26,15 @@ height: 100vh;
       </div>
       <div id="leaderboard">
         <div class="ribbon" ></div>
-        <table>
-          <tr>
+        <table id="leaderboardTable">
+          <!-- <tr>
             <td class="number">1</td>
             <td class="name">Lee Taeyong</td>
-            <td class="points">
+            <td id="what" class="points">
               258.244 <img class="gold-medal" src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true" alt="gold medal"/>
             </td>
-          </tr>
-          <tr>
+          </tr> -->
+          <!-- <tr>
             <td class="number">2</td>
             <td class="name">Mark Lee</td>
             <td class="points">258.242</td>
@@ -77,7 +73,7 @@ height: 100vh;
             <td class="number">5</td>
             <td class="name">Johnny Suh</td>
             <td class="points">258.208</td>
-          </tr>
+          </tr> -->
         </table>
       </div>
     </main>
