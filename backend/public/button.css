@@ -35,7 +35,6 @@ button:active {
 .container{
     display:flex;
     justify-content: space-between;
-    /* background: rgb(99, 79, 79); */
     padding: 15px;
     max-width: 100%;;
     background: linear-gradient(#524e4e, #c6c7cf);
@@ -57,8 +56,3 @@ button:active {
   justify-content: center;
   position: fixed;
 }
-
-/* .center-pic {
-  position: fixed;
-  height: 500px
-} */

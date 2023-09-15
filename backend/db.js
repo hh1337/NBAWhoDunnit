@@ -4,10 +4,10 @@ export default class SQLObject {
     
     constructor() {
       this.pool = mysql.createPool({
-        host: '127.0.0.1',
-        user: 'root',
-        password: '0512',
-        database: 'notes_app'
+        host: process.env.DB_HOST || '127.0.0.1',
+        user: process.env.DB_USER || 'root',
+        password: process.env.DB_PASS || '0512',
+        database: process.env.DB_NAME || 'notes_app'
     }    
     ).promise()
     }

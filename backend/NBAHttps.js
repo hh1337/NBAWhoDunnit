@@ -1,5 +1,5 @@
 import statsMap from './nbaStatsMap.json' assert { type: 'json'}
-import MaxPriorityQueue from "./pq/MaxPriorityQueue.js";
+import MaxPriorityQueue from '@datastructures-js/priority-queue'
 import XMLHttpRequest from 'xhr2';
 
 export default class NBAHttps {
@@ -111,8 +111,8 @@ export default class NBAHttps {
         while (player1Val === player2Val) {
           this.setCurrStat()
 
-          const queue1 = new MaxPriorityQueue((stat) => stat[this.currStat])
-          const queue2 = new MaxPriorityQueue((stat) => stat[this.currStat])
+          const queue1 = new MaxPriorityQueue.MaxPriorityQueue((stat) => stat[this.currStat])
+          const queue2 = new MaxPriorityQueue.MaxPriorityQueue((stat) => stat[this.currStat])
           
           team1.forEach((item) => {queue1.enqueue(item)})
           team2.forEach((item) => {queue2.enqueue(item)})

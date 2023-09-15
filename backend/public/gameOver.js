@@ -19,7 +19,6 @@ function submitScore() {
     }
     checkNameExists(playerName).then((playerExists) => {
         if (playerExists) {
-            console.log('i exist')
             document.getElementById('playerExists').style.display = 'block'
             document.getElementById('playerExists').innerHTML = 'Player Already exists!'        
             document.getElementById('name').value  = ''
@@ -27,7 +26,7 @@ function submitScore() {
         } 
         
         axios.post("/addEntry", {name: playerName, score: playerScore}).then((res) => {
-            console.log(res)
+            
         })
 
         window.location.href = 'leaderboard.html'
@@ -37,6 +36,10 @@ function submitScore() {
           
 playerScore = sessionStorage.playerScore
 highestStreak = sessionStorage.highestStreak
+
+if (playerScore === 'undefined') {
+    window.location.href = 'menu.html'
+}
 
 sessionStorage.playerScore = undefined
 sessionStorage.highestStreak = undefined

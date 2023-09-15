@@ -1,4 +1,4 @@
-import menuGifs from './menuGifs.json' assert { type: 'json'}
+import menuGifs from './static/menuGifs.json' assert { type: 'json'}
 
 const menuPicMap = new Map(Object.entries(menuGifs))
 

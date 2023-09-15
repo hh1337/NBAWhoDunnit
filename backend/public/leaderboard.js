@@ -12,7 +12,6 @@ axios.get('/getTop', {params:params}).then(function (response) {
       let c2 = row.insertCell(1);
       let c3 = row.insertCell(2);
     
-      // Add data to c1 and c2
       c1.innerText = iter
       c2.innerText = player['name']
       c3.innerText = player['score']   
@@ -28,10 +27,7 @@ axios.get('/getTop', {params:params}).then(function (response) {
   })      
 
 })
-.catch(function (error) {
-  console.log(error);
-}) 
 
 document.getElementById('mmBtn').onclick = function () {
     window.location.href = 'menu.html'
-  }
+}

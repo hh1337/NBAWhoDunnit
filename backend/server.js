@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import SQLObject from './database.js'
+import SQLObject from './db.js'
 import NBAHttps from './NBAHttps.js'
 import path from 'path'
 import { fileURLToPath } from 'url';
@@ -31,7 +31,7 @@ app.get("/getLastSeason", async (req, res) => {
 })
 
 app.get("/", async (req, res) => {
-    res.send('fdsa')
+    res.sendFile(path.join(__dirname + '/public/menu.html'))
 })
 
 app.get("/getAll", async (req, res) => {
@@ -68,24 +68,15 @@ app.get('/playerExists', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
-    if (req.user) {
-        var redir = { redirect: "/public" };
-        return res.json(redir);
-  } else {
-        var redir = { redirect: '/login'};
-        return res.json(redir);
-  }
-})
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-// Serve static files from the React frontend app
+// Serve static files from public folder
 app.use(express.static(path.join(__dirname, './public')))
 
-// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+// Return any unknown url to menu
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/public/menu.html'))
 })

@@ -3,7 +3,7 @@ import statsMap from './static/nbaStatsMap.json' assert { type: 'json'}
 
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
 const statsMapObj = new Map(Object.entries(statsMap)) 
-const STARTING_HEALTH = 10
+const STARTING_HEALTH = 0
 const STARTING_SCORE = 69
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 1
@@ -13,9 +13,9 @@ const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
-const TIME_LIMIT = 10
+const TIME_LIMIT = 8
 const FULL_DASH_ARRAY = 283;
-const WARNING_THRESHOLD = 5;
+const WARNING_THRESHOLD = TIME_LIMIT / 2;
 const ALERT_THRESHOLD = 2;
 const COLOR_CODES = {
   info: {
@@ -53,12 +53,11 @@ function getNBAData() {
       axios.get("/get", { params: params }).then((res) => {
         resolve(res.data)
       })
-
-
     })      
   }
   )
 }
+
 function updateTable() {
   statsMapObj.forEach((val, key) => {
     document.getElementById(`${key}Name`).innerHTML = val
@@ -88,7 +87,6 @@ function updatePlayerBtns() {
     correctPlayer = player2
     wrongBtnId = 'player1'
   }
-  console.log(correctBtnId)
 }
 
 function updateTitle() {
@@ -238,8 +236,6 @@ const checkAnswer = (btn) => {
   clearInterval(timerInterval)  
   
   if (btn.target.id.startsWith(correctBtnId)) {
-      console.log('YOU ARE CORRECT!')      
-      
       // update streak and score
       score += 1
       streak += 1         
@@ -254,14 +250,12 @@ const checkAnswer = (btn) => {
       if (Math.random() < EXTRA_LIFE_PROB) {
         addLife()
       }            
-    } else {
-      console.log(`YOU ARE WRONG. It should be ${correctPlayer['player']['first_name']} ${correctPlayer['player']['last_name']} :(`)
-
+    } else {      
       // decrement health and reset streak
       currLives -= 1
       streak = 0
 
-      // if no more life
+      // if no more life      
       if (currLives < 0) {
         endGame()
       }   
@@ -334,7 +328,7 @@ function initializePage() {
   flashLoading()
 }
 
-function endGame() {
+function endGame() {    
     sessionStorage.playerScore = score
     sessionStorage.highestStreak = highestStreak
     window.location.href = 'gameOver.html'
@@ -353,6 +347,11 @@ function startTimer() {
 
     if (timeLeft === 0) {
       currLives -= 1
+
+      if (currLives < 0) {
+        endGame()
+      }
+
       streak = 0
 
       changeBtnStatus(true) 
