@@ -12,9 +12,17 @@ function checkNameExists(playerName) {
 
 function submitScore() {    
     const playerName = document.getElementById('name').value    
+    if ((playerName) === '') {
+        document.getElementById('playerExists').style.display = 'block'
+        document.getElementById('playerExists').innerHTML = 'Please enter name!'        
+        return
+    }
     checkNameExists(playerName).then((playerExists) => {
         if (playerExists) {
             console.log('i exist')
+            document.getElementById('playerExists').style.display = 'block'
+            document.getElementById('playerExists').innerHTML = 'Player Already exists!'        
+            document.getElementById('name').value  = ''
             return
         } 
         
@@ -24,21 +32,6 @@ function submitScore() {
 
         window.location.href = 'leaderboard.html'
     })
-
-    // console.log(playerName)
-    // let user = {name: playerName, score: playerScore}
-    // axios.get("http://127.0.0.1:8080/playerExists", {
-    //     params: user
-    // }).then((res) => {
-    //     const boolean = Object.values(res.data[0])[0]    
-    //     if (boolean) {
-    //         console.log(true)
-    //     } else {
-    //         console.log(false)
-    //     }        
-    // })
-    
-
 }
 
 window.onload = function () {            
@@ -47,8 +40,6 @@ window.onload = function () {
 
     sessionStorage.playerScore = undefined
     sessionStorage.highestStreak = undefined
-
-    playerScore = 1029
     
     document.getElementById('gameOverScore').innerHTML = playerScore
     document.getElementById('highestStreak').innerHTML = highestStreak
@@ -68,7 +59,5 @@ window.onload = function () {
     
     if (playerScore === 'undefined') {
         document.getElementById('scoreSubmitter').style.display = 'None'
-    }    
-    
-    // document.getElementById('submitScoreBtn').onclick = submit
+    }            
 }

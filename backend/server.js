@@ -2,12 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import SQLObject from './database.js'
 import NBAHttps from './NBAHttps.js'
-import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'json'}
 
 const app = express()
 const sqlObj = new SQLObject()
 const nba = new NBAHttps()
-const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
 
 app.use(cors())
 app.use(express.json())
@@ -47,7 +45,7 @@ app.get("/getAll", async (req, res) => {
 
 app.get('/getTop', (req, res) => {
     try {        
-        sqlObj.getTop(8).then(data => {
+        sqlObj.getTop(req.query['n']).then(data => {
             res.send(data)
         })      
     }

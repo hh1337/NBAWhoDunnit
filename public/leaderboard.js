@@ -1,7 +1,7 @@
 window.onload = function () {            
     const table = document.getElementById('leaderboardTable')
-
-    axios.get('http://127.0.0.1:8080/getTop').then(function (response) {
+    const params = {n: 10}
+    axios.get('http://127.0.0.1:8080/getTop', {params:params}).then(function (response) {
       const players = response.data
 
       let iter = 1

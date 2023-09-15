@@ -35,11 +35,12 @@ height: 100vh;
         <div class="form__group field">
             <input type="input" class="form__field" placeholder="Name" name="name" id='name' required/>
             <label for="name" class="form__label">Name</label>
-          </div>                
+            <p id="playerExists" style="font-family: 'Times New Roman', Times, serif; color: yellow;display: none;position: absolute;"></p>
+        </div>                
         <button id="submitScoreBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Submit High Score</button>
     </div>           
 
-    <div class="text-white flex text-center justify-center mt-5">                                               
+    <div class="text-white flex text-center justify-center" style="margin-top: 40px;">                                               
         <button id="mmBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Main Menu</button>
         <button id="playAgainBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Play Again?</button>
     </div>               
