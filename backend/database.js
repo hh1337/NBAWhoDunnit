@@ -27,6 +27,11 @@ export default class SQLObject {
         return rows
     }
 
+    async playerExists(playerName) {
+        const [rows] = await this.pool.query(`SELECT EXISTS(SELECT 1 FROM players WHERE name = ?);`, [playerName])
+        return rows
+    }
+
     async createEntry(name, score) {
         const [result] = await this.pool.query(`
         INSERT INTO players (name, score)

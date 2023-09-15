@@ -1,0 +1,39 @@
+<html lang="en">
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+<head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
+    <script type="module" src="leaderboard.js"></script>
+    <link href="newStyles.css" rel="stylesheet"/>
+    <link href="leaderboard.css" rel="stylesheet"/>
+    <link href="button.css" rel="stylesheet"/>    
+</head>
+
+<body style="background: url(static/background.png); 
+background-size: cover;
+background-repeat: no-repeat;
+height: 100vh;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;">
+
+    <main>
+      <div id="header">
+        <h1 class="purples">Ranking</h1>
+      </div>
+      <div id="leaderboard">
+        <div class="ribbon" ></div>
+        <table id="leaderboardTable">
+        </table>
+      </div>
+    </main>
+
+    <div id="buttons">
+        <button id="mmBtn" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full" style="font-size: 2rem;">Main Menu</button>    
+    </div>
+                
+</body>
+</html>

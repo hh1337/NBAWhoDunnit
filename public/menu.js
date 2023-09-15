@@ -1,4 +1,3 @@
-import NBAHttps from './NBAHttps.js'  
 import menuGifs from '/menuGifs.json' assert { type: 'json'}
 
 const menuPicMap = new Map(Object.entries(menuGifs))
@@ -29,7 +28,6 @@ function loopMenuGif() {
                 if (menuIdx > menuPicMap.size - 1) {
                     menuIdx = 0
                 }            
-                console.log(menuIdx)
                 document.getElementById('menuPic').src = `static/menuGifs/${menuIdx}.gif`
             }
             }, 1000)            
@@ -37,20 +35,19 @@ function loopMenuGif() {
     }
 }
 
+
 window.onload = function () {    
-    const nba = new NBAHttps()
     let option
     
     loopMenuGif()
 
-    nba.getLastSeason().then(year => {                                            
+    axios.get("http://127.0.0.1:8080/getLastSeason").then((year) => { 
         const yearObj = document.getElementById('year')
-        for (let i=year;i>1989;i--) {
+        for (let i=year.data;i>1989;i--) {
             option = new Option(i, i)
             yearObj.add(option, undefined)
-        }            
-    })
-    
+        }      
+      })  
     document.getElementById('start').onclick = startGame
     document.getElementById('leaderboard').onclick = leaderBoard
 }

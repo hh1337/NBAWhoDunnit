@@ -1,5 +1,6 @@
 import statsMap from './nbaStatsMap.json' assert { type: 'json'}
 import MaxPriorityQueue from "./pq/MaxPriorityQueue.js";
+import XMLHttpRequest from 'xhr2';
 
 export default class NBAHttps {
   URL = 'https://www.balldontlie.io/api/v1/'    
@@ -49,7 +50,6 @@ export default class NBAHttps {
     return new Promise((resolve, reject) => {
       this.sendApiRequest(endpoint).then(responseData => {
         const meta = responseData['meta']
-        // console.log(meta)
         const perPage = meta['per_page']
         const total = meta['total_count']
 

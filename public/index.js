@@ -1,8 +1,8 @@
-import NBAHttps from './NBAHttps.js'
 import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'json'}
+import statsMap from './static/nbaStatsMap.json' assert { type: 'json'}
 
-const nba = new NBAHttps()
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
+const statsMapObj = new Map(Object.entries(statsMap)) 
 const STARTING_HEALTH = 10
 const STARTING_SCORE = 69
 const WAIT_UPDATE_TIME = 1500
@@ -46,23 +46,21 @@ let player1, player2
 
 function getNBAData() {  
   return new Promise((resolve) => {
-    nba.getLastSeason().then((currentYear) => {
-      const randomYear = (sessionStorage.selectedYear == "0") ? Math.floor(Math.random() * 3 + (currentYear - 3)) : sessionStorage.selectedYear
+    axios.get("http://127.0.0.1:8080/getLastSeason").then((currentYear) => { 
+      const randomYear = (sessionStorage.selectedYear == "0") ? Math.floor(Math.random() * 3 + (currentYear.data - 3)) : sessionStorage.selectedYear
       const randomTeamId = (sessionStorage.selectedTeam == "0") ? Math.floor(Math.random() * (31-1) + 1): sessionStorage.selectedTeam
-      nba.getRandomGame(randomYear, randomTeamId).then((game) => {
-        nba.getGameStats(game.id).then((stats) => {             
-          nba.chooseTwoPlayers(nba.separateTeams(stats)).then((players) => {        
-            resolve(players)
-          })
-        })
+      const params = {randomYear: randomYear, randomTeamId: randomTeamId}
+      axios.get("http://127.0.0.1:8080/get", { params: params }).then((res) => {
+        resolve(res.data)
       })
-    })    
+
+
+    })      
   }
   )
 }
-
 function updateTable() {
-  nba.statsMap.forEach((val, key) => {
+  statsMapObj.forEach((val, key) => {
     document.getElementById(`${key}Name`).innerHTML = val
     document.getElementById(key).innerHTML = correctPlayer[key] ?? 0
   })
@@ -450,7 +448,7 @@ function setCircleDasharray() {
     .setAttribute("stroke-dasharray", circleDasharray);
 }
 
-window.onload = function () {    
+window.onload = function () {  
   initializePage()
   player1ImgBtn.onclick = checkAnswer
   player2ImgBtn.onclick = checkAnswer
