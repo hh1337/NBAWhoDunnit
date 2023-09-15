@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import SQLObject from './database.js'
 import NBAHttps from './NBAHttps.js'
+import path from 'path'
+import { fileURLToPath } from 'url';
 
 const app = express()
 const sqlObj = new SQLObject()
@@ -64,6 +66,28 @@ app.get('/playerExists', (req, res) => {
     sqlObj.playerExists(req.query.name).then((data) => {
         res.send(data)
     })
+})
+
+app.post('/login', (req, res) => {
+    if (req.user) {
+        var redir = { redirect: "/public" };
+        return res.json(redir);
+  } else {
+        var redir = { redirect: '/login'};
+        return res.json(redir);
+  }
+})
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, './public')))
+
+// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/menu.html'))
 })
 
 const port = process.env.PORT || 8080

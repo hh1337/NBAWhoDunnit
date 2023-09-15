@@ -1,4 +1,4 @@
-import menuGifs from '/menuGifs.json' assert { type: 'json'}
+import menuGifs from './menuGifs.json' assert { type: 'json'}
 
 const menuPicMap = new Map(Object.entries(menuGifs))
 
@@ -34,21 +34,19 @@ function loopMenuGif() {
         document.getElementById('menuPic').src = `static/menuGifs/${menuIdx}.gif`
     }
 }
+  
+let option
 
+loopMenuGif()
 
-window.onload = function () {    
-    let option
-    
-    loopMenuGif()
+axios.get("/getLastSeason").then((year) => { 
+    const yearObj = document.getElementById('year')
+    for (let i=year.data;i>1989;i--) {
+        option = new Option(i, i)
+        yearObj.add(option, undefined)
+    }      
+    })  
+document.getElementById('start').onclick = startGame
+document.getElementById('leaderboard').onclick = leaderBoard
 
-    axios.get("http://127.0.0.1:8080/getLastSeason").then((year) => { 
-        const yearObj = document.getElementById('year')
-        for (let i=year.data;i>1989;i--) {
-            option = new Option(i, i)
-            yearObj.add(option, undefined)
-        }      
-      })  
-    document.getElementById('start').onclick = startGame
-    document.getElementById('leaderboard').onclick = leaderBoard
-}
   

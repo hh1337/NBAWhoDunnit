@@ -13,7 +13,7 @@ const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
-const TIME_LIMIT = 5000
+const TIME_LIMIT = 10
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 5;
 const ALERT_THRESHOLD = 2;
@@ -46,11 +46,11 @@ let player1, player2
 
 function getNBAData() {  
   return new Promise((resolve) => {
-    axios.get("http://127.0.0.1:8080/getLastSeason").then((currentYear) => { 
+    axios.get("/getLastSeason").then((currentYear) => { 
       const randomYear = (sessionStorage.selectedYear == "0") ? Math.floor(Math.random() * 3 + (currentYear.data - 3)) : sessionStorage.selectedYear
       const randomTeamId = (sessionStorage.selectedTeam == "0") ? Math.floor(Math.random() * (31-1) + 1): sessionStorage.selectedTeam
       const params = {randomYear: randomYear, randomTeamId: randomTeamId}
-      axios.get("http://127.0.0.1:8080/get", { params: params }).then((res) => {
+      axios.get("/get", { params: params }).then((res) => {
         resolve(res.data)
       })
 
@@ -353,6 +353,7 @@ function startTimer() {
 
     if (timeLeft === 0) {
       currLives -= 1
+      streak = 0
 
       changeBtnStatus(true) 
       clearInterval(timerInterval)      
@@ -448,15 +449,15 @@ function setCircleDasharray() {
     .setAttribute("stroke-dasharray", circleDasharray);
 }
 
-window.onload = function () {  
-  initializePage()
-  player1ImgBtn.onclick = checkAnswer
-  player2ImgBtn.onclick = checkAnswer
-  document.getElementById('mainMenu').onclick = function () {
-    window.location.href = 'menu.html'
-  }
-  document.getElementById('endGame').onclick = function () {
-    endGame()
-    window.location.href = 'gameOver.html'
-  }       
+ 
+initializePage()
+player1ImgBtn.onclick = checkAnswer
+player2ImgBtn.onclick = checkAnswer
+document.getElementById('mainMenu').onclick = function () {
+  window.location.href = 'menu.html'
 }
+document.getElementById('endGame').onclick = function () {
+  endGame()
+  window.location.href = 'gameOver.html'
+}       
+

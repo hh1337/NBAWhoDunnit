@@ -2,7 +2,7 @@ let playerScore, highestStreak
 
 function checkNameExists(playerName) {
     return new Promise((resolve, reject) => {
-        axios.get("http://127.0.0.1:8080/playerExists", {
+        axios.get("/playerExists", {
             params: {name: playerName}
         }).then((res) => {
             resolve(Object.values(res.data[0])[0])
@@ -26,7 +26,7 @@ function submitScore() {
             return
         } 
         
-        axios.post("http://127.0.0.1:8080/addEntry", {name: playerName, score: playerScore}).then((res) => {
+        axios.post("/addEntry", {name: playerName, score: playerScore}).then((res) => {
             console.log(res)
         })
 
@@ -34,30 +34,29 @@ function submitScore() {
     })
 }
 
-window.onload = function () {            
-    playerScore = sessionStorage.playerScore
-    highestStreak = sessionStorage.highestStreak
+          
+playerScore = sessionStorage.playerScore
+highestStreak = sessionStorage.highestStreak
 
-    sessionStorage.playerScore = undefined
-    sessionStorage.highestStreak = undefined
-    
-    document.getElementById('gameOverScore').innerHTML = playerScore
-    document.getElementById('highestStreak').innerHTML = highestStreak
+sessionStorage.playerScore = undefined
+sessionStorage.highestStreak = undefined
 
-    document.getElementById('mmBtn').onclick = function () {
-        window.location.href = 'menu.html'
-    }
-    
+document.getElementById('gameOverScore').innerHTML = playerScore
+document.getElementById('highestStreak').innerHTML = highestStreak
 
-    document.getElementById('playAgainBtn').onclick = function () {
-        window.location.href = 'index.html'
-    }
-
-    document.getElementById('submitScoreBtn').onclick = function () {
-        submitScore()
-    }
-    
-    if (playerScore === 'undefined') {
-        document.getElementById('scoreSubmitter').style.display = 'None'
-    }            
+document.getElementById('mmBtn').onclick = function () {
+    window.location.href = 'menu.html'
 }
+
+
+document.getElementById('playAgainBtn').onclick = function () {
+    window.location.href = 'index.html'
+}
+
+document.getElementById('submitScoreBtn').onclick = function () {
+    submitScore()
+}
+
+if (playerScore === 'undefined') {
+    document.getElementById('scoreSubmitter').style.display = 'None'
+}            
