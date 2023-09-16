@@ -12,12 +12,12 @@
 </head>    
 <body style="background: url(static/background.png); 
 background-size: cover;
-background-repeat: no-repeat;
-height: 100vh;
+background-repeat: repeat;
+width: 100%;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;">
-    <div id="gameOver" class="text-white text-5xl flex text-center justify-center mt-5">                                   
+    <div id="gameOver" class="text-white text-5xl flex text-center justify-center mt-1">                                   
         <div class="items-center">                                                  
             <h1 class="purples">Game Over</h1>
             <img id="sadLebron" src="static/lebronCry.gif" style="height: 400px;">      
@@ -27,20 +27,20 @@ height: 100vh;
         <p style="margin: 5px;">Score: <span id="gameOverScore" class="mint">VALUE</span></p>                                                     
     </div>           
 
-    <div class="text-white text-5xl flex text-center justify-center mt-3">                                               
+    <div class="text-white text-5xl flex text-center justify-center">                                               
         <p style="margin: 5px;">Highest Streak: <span id="highestStreak" class="mint">VALUE</span></p>     
     </div>               
 
-    <div id='scoreSubmitter' class="text-white flex text-center justify-center mt-5">                                               
+    <div id='scoreSubmitter' class="text-white flex text-center justify-center mt-1">                                               
         <div class="form__group field">
-            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required/>
+            <input type="input" class="form__field" placeholder="" name="name" id='name' required/>
             <label for="name" class="form__label">Name</label>
             <p id="playerExists" style="font-family: 'Times New Roman', Times, serif; color: yellow;display: none;position: absolute;"></p>
         </div>                
-        <button id="submitScoreBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Submit High Score</button>
+        <button id="submitScoreBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Submit Score</button>
     </div>           
 
-    <div class="text-white flex text-center justify-center" style="margin-top: 40px;">                                               
+    <div class="text-white flex text-center justify-center" style="margin-top: 40px; margin-bottom: 40px;">                                               
         <button id="mmBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Main Menu</button>
         <button id="playAgainBtn" style="margin-inline: 20px;" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 text-white px-5 py-1 rounded-full">Play Again?</button>
     </div>               

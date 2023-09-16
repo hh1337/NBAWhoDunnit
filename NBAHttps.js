@@ -1,10 +1,13 @@
 import statsMap from './nbaStatsMap.json' assert { type: 'json'}
+import playerHeadshots from './public/static/playerHeadshotv3.json' assert { type: 'json'}
 import MaxPriorityQueue from '@datastructures-js/priority-queue'
 import XMLHttpRequest from 'xhr2';
 
 export default class NBAHttps {
   URL = 'https://www.balldontlie.io/api/v1/'    
   statsMap = new Map(Object.entries(statsMap)) 
+  playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
+  DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
   
   constructor() {
     this.currStat
@@ -100,6 +103,10 @@ export default class NBAHttps {
     const stats = Array.from(this.statsMap.keys())    
     const randIdx = Math.floor(Math.random() * stats.length)            
     return stats[randIdx]
+  }
+
+  getPlayerHeadshot(playerId) {
+    return this.playerHeadshotsMap.get(playerId.toString()) || this.DEFAULT_HEADSHOT_PIC
   }
 
   chooseTwoPlayers(teams) {    

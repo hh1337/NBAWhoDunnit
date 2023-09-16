@@ -9,6 +9,7 @@
 <style>
 
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
   <title>JS Modules</title>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
@@ -16,18 +17,20 @@
 </head>
 <body style="background: url(static/background.png); 
 background-size: cover;
-background-repeat: no-repeat;
+background-repeat: repeat;
 height: 100vh;
+width: 100vw;
+position: fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;">
 
 <div class="container">
-  <div class="align">
+  <div id="navBtns" class="align">
     <button id="mainMenu" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">Return to Main Menu</button>                
     <button id="endGame" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">End Game</button>   
   </div>
-  <div class="align">
+  <div id="scoreDisplay" class="align">
     <p class="box">Score: <span id="score"></span></p>
     <div class="box" style="font-size: 1.5rem; vertical-align: middle;">
       <p>Streak: <span id="streak"></span></p> 
@@ -39,39 +42,40 @@ height: 100vh;
   </div>
 </div>
 
+<p id="lifeAdded" class="center mint">+1 Life Added!</p>
+
 <div class="center" id="loading">Loading...</div>
 
   <section id="control-center" style="display: none;">      
     <div id="gameMeta" class="mt-3 text-center justify-center">
       <div>      
-        <div class="flex items-center justify-center">        
+        <div id="teamLogoContainer" class="flex items-center justify-center">        
           <div class="items-center" style="width: 200px;margin-right: 500px">            
           </div>   
           <div class="items-center" style="margin-right: 10px;">
-            <img id="team1img" class="bg-indigo-300 rounded-full px-6" width="200" height="100">
+            <img id="team1img" class="teamImg bg-indigo-300 rounded-full px-6" width="200" height="100" >
           </div>
           <div class="items-center">
             <p class="text-3xl text-white">VS.</p>
           </div>
           <div class="items-center" style="margin-left: 10px">
-            <img id="team2img" class="bg-indigo-300 rounded-full px-6" width="200" height="100">
+            <img id="team2img" class="teamImg bg-indigo-300 rounded-full px-6" width="200" height="100">
           </div>           
-          <div class="items-center" style="width: 200px;margin-left: 500px;">
-            <p id="lifeAdded" class="mint" style="font-size: 50px;">+1 Life Added!</p>
-          </div>         
+          <div class="items-center" style="width: 200px;margin-left: 500px;">            
+          </div>     
         </div>  
           <h1 class="text-white text-bold text-3xl" id="ptsSummary"></h1>
           <h1><span id="gameSummary"></span></h1>                 
       </div>      
       
-      <div id="statsMeta" class="text-center justify-center" style="margin: 20px;">
+      <div id="statsMeta" class="text-center justify-center">
         <div>
-          <div class="flex items-center justify-center">                      
+          <div id="infoContainer" class="flex items-center justify-center">                      
             <div class="items-center" style="width: 400px">                       
             </div>            
 
             <div id="streakPhoto" style="position: absolute;display: none;">
-              <img id="streakPhotoId" src="static/streakPhotos/0.png" style="height: 500px; border: 10px solid rgb(0, 119, 255)">              
+              <img id="streakPhotoId" src="static/streakPhotos/0.png" style="width: 800px; border: 10px solid rgb(0, 119, 255)">              
             </div>                        
 
             <div class="items-center">
@@ -116,7 +120,7 @@ height: 100vh;
               </table> 
             </div> 
 
-            <div style="width: 400px; height: 200px; margin-inline-start: 50px;">
+            <div id="timerContainer" style="width: 400px; height: 200px;">
               <div id="timer"></div>
             </div>
             
@@ -126,7 +130,7 @@ height: 100vh;
                      
       <div id="playerOptions" class="text-center justify-center">
         <div>
-          <div class="flex items-center justify-center">        
+          <div id="playerContainer" class="flex items-center justify-center">        
             <div id="player1Card" class="playerCard" style="margin-inline: 10px;">
               <div id="player1">Player1</div>
               <img id="player1img" width="350" height="254" style="cursor: pointer;">          

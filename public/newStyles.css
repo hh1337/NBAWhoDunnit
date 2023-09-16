@@ -15,7 +15,162 @@
   h1 {
     margin: 0;
   }
+
+  p {
+    font-size: large;
+  }
+
+  .teamImg {
+    max-width: unset;
+  }
+
+  #timerContainer{
+    margin-inline-start: 50px;
+  }
+
+  #playerOptions {
+    margin-top: 1%;
+  }
+
+  #lifeAdded {
+    font-size: 5rem;
+    display: none;
+    height: 150vh;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+  }
+
+@media (max-width: 400px) {
   
+    .playerCard {
+      font-size: unset;
+      width: 170px;
+      margin: 5px;
+    }
+  
+    .playerCardRight {
+      font-size: unset;
+      width: 170px;
+      margin: 5px;
+    }
+
+    .playerCardWrong {
+      font-size: unset;
+      width: 170px;
+      margin: 5px;
+    }
+
+    img {
+      max-width: 70%;
+      display: unset;
+    }
+  
+  #loading {
+    font-size: 48px;
+  }
+
+  #lifeAdded {
+    font-size: 2rem;
+    height: 160vh;
+  }
+
+  #statsMeta {
+    margin-top: 5px;
+    height: 290px;
+  }
+
+#streakPhotoId{
+  width: 500px;
+  border: 5px solid rgb(0, 119, 255);
+}
+
+  #playerOptions {
+    margin-top: unset;
+  }
+
+  #infoContainer {
+      flex-direction: column;
+    } 
+
+  #teamLogoContainer {
+    max-height: 100px;
+  }
+
+  #mainMenu {
+    margin: 3%;
+    font-size: 10px;
+  }
+
+  #navBtns {
+    margin-right: 5%;
+  }
+
+  #endGame {
+    margin: 3%;
+    font-size: 10px;
+  }
+
+  #statTable {
+    width: 350px;
+  }
+
+  #timerContainer{
+    margin-inline-start: 325px;
+    margin-top: 10px;
+  }
+
+  #ptsSummary {
+    font-size: 15px;
+  }
+
+  .teamImg {
+    width: 100px;
+  }
+
+  .base-timer__label {
+    width: 75px;
+    height: 75px;
+    font-size: 24px;
+  }
+
+  .base-timer {
+    width: 75px;
+    height: 75px;
+  }
+
+  button {
+    padding: 5px;
+    padding-inline: unset;
+  }
+
+  h1 {
+    font-size: 10px;
+  }
+
+  .box {
+    padding: unset;
+    padding-inline: unset;
+    font-size: 1rem;
+    margin-inline: unset;
+    margin-top: 3%;
+    height: 80%;
+  }
+
+  .container {
+    padding: 5px;
+  }
+
+  body {
+    font-size: 10px;
+    }
+
+  p {
+    font-size: 10px;
+  }
+
+  }
+
   @font-palette-values --Grays {
     font-family: Rocher;
     base-palette: 9;

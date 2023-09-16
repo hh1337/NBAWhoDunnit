@@ -1,20 +1,24 @@
-import playerHeadshots from './static/playerHeadshotv3.json' assert { type: 'json'}
-import statsMap from './static/nbaStatsMap.json' assert { type: 'json'}
-
-const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
-const statsMapObj = new Map(Object.entries(statsMap)) 
+const statsMapObj = new Map(Object.entries({
+  "pts": "Points",
+  "ast": "Assists",
+  "blks": "Blocks",
+  "fg3_pct": "3 Point Field Goal Pct",  
+  "ft_pct": "Free Throw Pct",
+  "reb": "Rebounds",
+  "stl": "Steals",
+  "turnover": "Turnovers"
+})) 
 const STARTING_HEALTH = 10
 const STARTING_SCORE = 0
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 0.1
-const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
 const player1Btn = document.getElementById('player1')
 const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
 const TOTAL_STREAK_PHOTOS = 10
-const TIME_LIMIT = 10
+const TIME_LIMIT = 1000
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = TIME_LIMIT / 2;
 const ALERT_THRESHOLD = 2;
@@ -118,13 +122,22 @@ function updatePlayerImg() {
   let player1Id = player1['player']['id']
   let player2Id = player2['player']['id']
 
-  document.getElementById('player1img').src = getPlayerHeadshot(player1Id)
-  document.getElementById('player2img').src = getPlayerHeadshot(player2Id)
+  getPlayerHeadshot(player1Id).then((data) => {
+    document.getElementById('player1img').src = data
+  })
+
+  getPlayerHeadshot(player2Id).then((data) => {
+    document.getElementById('player2img').src = data
+  })
 }
 
 function getPlayerHeadshot(playerId) {
-  return playerHeadshotsMap.get(playerId.toString()) || DEFAULT_HEADSHOT_PIC
-}
+  return new Promise((resolve) => {
+      axios.get("/getPlayerHeadshot", { params: {playerId: playerId} }).then((res) => {
+        resolve(res.data)
+      })
+    })      
+  } 
 
 function getTeamImg(teamId) {
   return `static/nbaLogos/${teamId}.png`
@@ -194,6 +207,7 @@ function changeBtnColors() {
 
 function resetLifeAdded() {
   document.getElementById('lifeAdded').style.opacity = 0
+  document.getElementById('lifeAdded').style.display = 'none'
   clearInterval(lifeOpacityInterval)
 }
 
@@ -228,13 +242,13 @@ const checkAnswer = (btn) => {
   document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
   document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
   
-  let showStreakPhoto = false
+  let showStreakPhoto = true
 
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
     
   clearInterval(timerInterval)  
-  
+  addLife()
   if (btn.target.id.startsWith(correctBtnId)) {
       // update streak and score
       score += 1
@@ -247,9 +261,9 @@ const checkAnswer = (btn) => {
       }
       
       // add extra life based on chance
-      if (Math.random() < EXTRA_LIFE_PROB) {
-        addLife()
-      }            
+      // if (Math.random() < EXTRA_LIFE_PROB) {
+      //   addLife()
+      // }            
     } else {      
       // decrement health and reset streak
       currLives -= 1
@@ -281,6 +295,8 @@ function addLife() {
   currLives += 1
   lifeAddedOpacity = 1  
 
+  document.getElementById('lifeAdded').style.display = 'flex'
+  
   lifeOpacityInterval = setInterval(() => {
     lifeAddedOpacity -= 0.05
     document.getElementById('lifeAdded').style.opacity = lifeAddedOpacity

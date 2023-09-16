@@ -37,9 +37,9 @@ function submitScore() {
 playerScore = sessionStorage.playerScore
 highestStreak = sessionStorage.highestStreak
 
-if (playerScore === 'undefined') {
-    window.location.href = 'menu.html'
-}
+// if (playerScore === 'undefined') {
+//     window.location.href = 'menu.html'
+// }
 
 sessionStorage.playerScore = undefined
 sessionStorage.highestStreak = undefined
@@ -60,6 +60,6 @@ document.getElementById('submitScoreBtn').onclick = function () {
     submitScore()
 }
 
-if (playerScore === 'undefined') {
-    document.getElementById('scoreSubmitter').style.display = 'None'
-}            
+// if (playerScore === 'undefined') {
+//     document.getElementById('scoreSubmitter').style.display = 'None'
+// }            

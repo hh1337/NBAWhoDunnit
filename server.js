@@ -24,6 +24,10 @@ app.get("/get", async (req, res) => {
     })     
 })
 
+app.get("/getPlayerHeadshot", async (req, res) => {
+    res.send(nba.getPlayerHeadshot(req.query['playerId']))
+})
+
 app.get("/getLastSeason", async (req, res) => {
     nba.getLastSeason().then((currentYear) => {        
         res.send(currentYear.toString())

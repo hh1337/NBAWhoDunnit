@@ -1,6 +1,10 @@
-import menuGifs from './static/menuGifs.json' assert { type: 'json'}
-
-const menuPicMap = new Map(Object.entries(menuGifs))
+const menuPicMap = new Map(Object.entries({
+    "0": 3000,
+    "1": 2800,
+    "2": 2800,
+    "3": 1500,
+    "4": 1500
+  }))
 
 
 function startGame () {
@@ -35,20 +39,15 @@ function loopMenuGif() {
     }
 }
   
-// loopMenuGif()
+loopMenuGif()
 
-// axios.get("/getLastSeason").then((year) => { 
-//     const yearObj = document.getElementById('year')
-//     for (let i=year.data;i>1989;i--) {
-//         option = new Option(i, i)
-//         yearObj.add(option, undefined)
-//     }      
-// })  
-const yearObj = document.getElementById('year')
-for (let i=2022;i>1989;i--) {
-    let option = new Option(i, i)
-    yearObj.add(option, undefined)
-} 
+axios.get("/getLastSeason").then((year) => { 
+    const yearObj = document.getElementById('year')
+    for (let i=year.data;i>1989;i--) {
+        let option = new Option(i, i)
+        yearObj.add(option, undefined)
+    }      
+})  
 document.getElementById('start').onclick = startGame
 document.getElementById('leaderboard').onclick = leaderBoard
 
