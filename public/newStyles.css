@@ -35,11 +35,16 @@
   #lifeAdded {
     font-size: 5rem;
     display: none;
-    height: 150vh;
+    height: 170vh;
     flex-direction: column;
     justify-content: center;
     position: fixed;
   }
+
+#streakPhoto {
+  height: unset;
+  width: 500px;
+}
 
 @media (max-width: 400px) {
   
@@ -80,10 +85,10 @@
     height: 290px;
   }
 
-#streakPhotoId{
-  width: 500px;
-  border: 5px solid rgb(0, 119, 255);
-}
+  #streakPhotoId{
+    width: 200px;
+    border: 5px solid rgb(0, 119, 255);
+  }
 
   #playerOptions {
     margin-top: unset;

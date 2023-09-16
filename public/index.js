@@ -8,7 +8,7 @@ const statsMapObj = new Map(Object.entries({
   "stl": "Steals",
   "turnover": "Turnovers"
 })) 
-const STARTING_HEALTH = 10
+const STARTING_HEALTH = 5
 const STARTING_SCORE = 0
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 0.1
@@ -223,7 +223,7 @@ function displayStreakPhoto() {
   let idx = -1
   streakPhotoColorInterval = setInterval(() => {    
     idx += 1    
-    document.getElementById('streakPhotoId').style.border = `10px solid ${colors[idx]}`
+    document.getElementById('streakPhotoId').style.border = `5px solid ${colors[idx]}`
 
     if (idx == colorLen - 1) {
       idx = -1
@@ -248,12 +248,12 @@ const checkAnswer = (btn) => {
   changeBtnColors() // highlight correct and wrong answer buttons
     
   clearInterval(timerInterval)  
-  addLife()
+  
   if (btn.target.id.startsWith(correctBtnId)) {
       // update streak and score
       score += 1
       streak += 1         
-      if (streak % 5 === 0) {
+      if (streak % 3 === 0) {
         showStreakPhoto = true
       }  
       if (streak > highestStreak) {
@@ -261,9 +261,9 @@ const checkAnswer = (btn) => {
       }
       
       // add extra life based on chance
-      // if (Math.random() < EXTRA_LIFE_PROB) {
-      //   addLife()
-      // }            
+      if (Math.random() < EXTRA_LIFE_PROB) {
+        addLife()
+      }            
     } else {      
       // decrement health and reset streak
       currLives -= 1
