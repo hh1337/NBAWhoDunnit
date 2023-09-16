@@ -7,7 +7,7 @@ export default class SQLObject {
         host: process.env.DB_HOST || '127.0.0.1',
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASS || '0512',
-        database: process.env.DB_NAME || 'notes_app'
+        database: process.env.DB_NAME || 'nbaGame'
     }    
     ).promise()
     }

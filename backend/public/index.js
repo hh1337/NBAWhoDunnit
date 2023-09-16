@@ -3,17 +3,18 @@ import statsMap from './static/nbaStatsMap.json' assert { type: 'json'}
 
 const playerHeadshotsMap = new Map(Object.entries(playerHeadshots))
 const statsMapObj = new Map(Object.entries(statsMap)) 
-const STARTING_HEALTH = 0
-const STARTING_SCORE = 69
+const STARTING_HEALTH = 10
+const STARTING_SCORE = 0
 const WAIT_UPDATE_TIME = 1500
-const EXTRA_LIFE_PROB = 1
+const EXTRA_LIFE_PROB = 0.1
 const DEFAULT_HEADSHOT_PIC = 'https://a.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
 const player1Btn = document.getElementById('player1')
 const player2Btn = document.getElementById('player2')
 const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
-const TIME_LIMIT = 8
+const TOTAL_STREAK_PHOTOS = 10
+const TIME_LIMIT = 10
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = TIME_LIMIT / 2;
 const ALERT_THRESHOLD = 2;
@@ -199,9 +200,8 @@ function resetLifeAdded() {
 function displayStreakPhoto() {
   const colors = ['blue','red','green','yellow','orange']
   const colorLen = colors.length
-  const totalPhotos = 3
-  let photoId = Math.floor(Math.random() * totalPhotos)
-
+  let photoId = Math.floor(Math.random() * TOTAL_STREAK_PHOTOS)
+  
   document.getElementById('streakPhoto').style.display = 'block' 
   document.getElementById('timer').style.display = 'none'
   document.getElementById('streakPhotoId').src = `static/streakPhotos/${photoId}.png`
