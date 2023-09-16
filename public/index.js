@@ -239,7 +239,7 @@ const checkAnswer = (btn) => {
       // update streak and score
       score += 1
       streak += 1         
-      if (streak % 2 === 0) {
+      if (streak % 5 === 0) {
         showStreakPhoto = true
       }  
       if (streak > highestStreak) {
