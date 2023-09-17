@@ -5,6 +5,7 @@
 <link href="button.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
 <script type="module" src="gameOver.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,16 +20,16 @@ width: 100%;
 -o-background-size: cover;">
     <div id="gameOver" class="text-white text-5xl flex text-center justify-center mt-1">                                   
         <div class="items-center">                                                  
-            <h1 class="purples">Game Over</h1>
-            <img id="sadLebron" src="static/lebronCry.gif" style="height: 400px;">      
+            <h1 id="gameOverTitle" class="purples">Game Over</h1>
+            <img id="sadLebron" src="static/lebronCry.gif" style="width: 300px;">      
         </div>                                  
     </div>         
     <div class="text-white text-5xl flex text-center justify-center">                                               
-        <p style="margin: 5px;">Score: <span id="gameOverScore" class="mint">VALUE</span></p>                                                     
+        <p id="gameOverScoreContainer" style="margin: 5px;">Score: <span id="gameOverScore" class="mint">VALUE</span></p>                                                     
     </div>           
 
     <div class="text-white text-5xl flex text-center justify-center">                                               
-        <p style="margin: 5px;">Highest Streak: <span id="highestStreak" class="mint">VALUE</span></p>     
+        <p id="highStreakContainer" style="margin: 5px;">Highest Streak: <span id="highestStreak" class="mint">VALUE</span></p>     
     </div>               
 
     <div id='scoreSubmitter' class="text-white flex text-center justify-center mt-1">                                               

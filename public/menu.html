@@ -2,6 +2,7 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
 <link href="button.css" rel="stylesheet"/>
 <link href="newStyles.css" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <title>Document</title>    
     <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
@@ -15,7 +16,7 @@ height: 100vh;
 -moz-background-size: cover;
 -o-background-size: cover;">
     <div class="flex items-center justify-center" style="padding-top: 5%;">
-        <h1 class="mint" id="menuString" style="font-size: 80px;">Who Dis Guy?</h1>
+        <h1 class="mint" id="menuString">Who Dis Guy?</h1>
     </div>
 
     <div class="flex items-center justify-center">
@@ -25,7 +26,7 @@ height: 100vh;
     <div id="menu" class="flex items-center justify-center mt-10">
         <div class="text-center">          
           <label for="teams" class="dropdown-label">Team to always include</label>
-          <select id="teams" class="border rounded-lg block w-full" style="font-size: 1.5rem; margin-bottom: 20px;">
+          <select id="teams" class="border rounded-lg block w-full">
             <option value="0" selected>All Random</option>
             <option value="1">Atlanta Hawks</option>
             <option value="2">Boston Celtics</option>
@@ -60,7 +61,7 @@ height: 100vh;
           </select>  
 
           <label for="year" class="dropdown-label">NBA Season</label>
-          <select id="year" class="border rounded-lg block w-full" style="font-size: 1.5rem">
+          <select id="year" class="border rounded-lg block w-full">
             <option value="0" selected>Past 3 Seasons</option>                 
           </select>  
 

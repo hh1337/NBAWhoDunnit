@@ -8,7 +8,7 @@ const statsMapObj = new Map(Object.entries({
   "stl": "Steals",
   "turnover": "Turnovers"
 })) 
-const STARTING_HEALTH = 5
+const STARTING_HEALTH = 3
 const STARTING_SCORE = 0
 const WAIT_UPDATE_TIME = 1500
 const EXTRA_LIFE_PROB = 0.1
@@ -18,7 +18,7 @@ const player1ImgBtn = document.getElementById('player1img')
 const player2ImgBtn = document.getElementById('player2img')
 
 const TOTAL_STREAK_PHOTOS = 10
-const TIME_LIMIT = 1000
+const TIME_LIMIT = 10
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = TIME_LIMIT / 2;
 const ALERT_THRESHOLD = 2;
@@ -242,7 +242,7 @@ const checkAnswer = (btn) => {
   document.getElementById(`${correctBtnId}Card`).className = 'playerCardRight'
   document.getElementById(`${wrongBtnId}Card`).className = 'playerCardWrong'
   
-  let showStreakPhoto = true
+  let showStreakPhoto = false
 
   changeBtnStatus(true) // disable buttons so they can't be continually pressed
   changeBtnColors() // highlight correct and wrong answer buttons
@@ -253,7 +253,7 @@ const checkAnswer = (btn) => {
       // update streak and score
       score += 1
       streak += 1         
-      if (streak % 3 === 0) {
+      if (streak % 4 === 0) {
         showStreakPhoto = true
       }  
       if (streak > highestStreak) {

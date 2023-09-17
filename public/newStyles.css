@@ -46,8 +46,20 @@
   width: 500px;
 }
 
+#menuString{
+  font-size: 80px;
+}  
+
+#year{
+  font-size: 1.5rem;
+}  
+
+#teams{
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}  
+
 @media (max-width: 400px) {
-  
     .playerCard {
       font-size: unset;
       width: 170px;
@@ -125,6 +137,26 @@
     margin-top: 10px;
   }
 
+  #menuString{
+    font-size: 40px;
+  }  
+
+  #year{
+    font-size: 0.9rem;
+    width: 70%;
+    margin-inline: 15%;
+  }  
+
+  #teams{
+    font-size: 0.9rem;
+    width: 70%;
+    margin-inline: 15%;
+  }  
+  
+  .dropdown-label {
+    font-size: 20px;
+  }
+
   #ptsSummary {
     font-size: 15px;
   }
@@ -174,7 +206,64 @@
     font-size: 10px;
   }
 
+  main {
+    width: 20rem;
+    height: 30rem;
   }
+
+  #header {
+    padding: 0.5rem 1rem;
+  }
+
+  #rankingHeading {
+    font-size: 40px;
+  }
+
+  .number {
+    height: 3rem;
+    width: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .name {
+    height: 3rem;
+    width: 0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .points {
+    height: 3rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }  
+
+  .gold-medal {
+    height: 2.5rem;
+  }
+
+  .ribbon {
+    height: 4rem;
+  }
+
+  #gameOverTitle {
+    font-size: 40px;
+  }
+
+  #gameOverScoreContainer {
+    font-size: 1.5rem;
+  }
+
+  #highStreakContainer {
+    font-size: 1rem
+  }
+
+  #scoreSubmitter {
+    margin-left: 20px;
+    margin-top: 1rem;
+  }
+
+}
 
   @font-palette-values --Grays {
     font-family: Rocher;
